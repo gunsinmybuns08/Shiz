@@ -71,7 +71,7 @@ oldNamecall = hookfunc(mt.__namecall, newcclosure(function(self, ...)
 					end)
 				end
 				
-				if args[1].Parent == workspace.HexagonFolder then
+				if args[1].Parent == workspace.SexagonFolder then
 					if args[1].PlayerName.Value.Character and args[1].PlayerName.Value.Character.Head ~= nil then
 						args[1] = args[1].PlayerName.Value.Character.Head
 					end
