@@ -524,11 +524,11 @@ AimbotTabCategoryAntiAimbot:AddToggle("Enabled", false, "AimbotTabCategoryAntiAi
 		end
 
 		if cum == true then
-			thing = library.pointers.AimbotTabCategoryAntiAimbotYawRange.value
+			thing = library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value
 		end
 
 		if cum == false then
-			thing = library.pointers.AimbotTabCategoryAntiAimbotYawRange.value - library.pointers.AimbotTabCategoryAntiAimbotYawRange.value - library.pointers.AimbotTabCategoryAntiAimbotYawRange.value 
+			thing = library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value - library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value - library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value
 		end
 			
 		if IsAlive(LocalPlayer) and (library.pointers.AimbotTabCategoryAntiAimbotDisableWhileClimbing.value == false or cbClient.climbing == false) then
@@ -563,12 +563,12 @@ AimbotTabCategoryAntiAimbot:AddToggle("Enabled", false, "AimbotTabCategoryAntiAi
 					library.pointers.AimbotTabCategoryAntiAimbotYaw.value == "Right" and CFrame.new(180, 0, 0)
 				)
 				RotatePlayer(workspace.CurrentCamera.CFrame * Angle)
-			elseif library.pointers.AimbotTabCategoryAntiAimbotYawmod.value == "Spin" then
+			elseif library.pointers.AimbotTabCategoryAntiAimbotYaw.value == "Spin" then
 				game.Players.LocalPlayer.Character.Humanoid.AutoRotate = false
 				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(library.pointers.AimbotTabCategoryAntiAimbotYawRange.value), 0)
 			elseif game.Players.LocalPlayer.Character.Humanoid.AutoRotate == false then
 				game.Players.LocalPlayer.Character.Humanoid.AutoRotate = true
-			elseif library.pointers.AimbotTabCategoryAntiAimbotYawmod.value == "Jitter" then
+			elseif library.pointers.AimbotTabCategoryAntiAimbotYaw.value == "Jitter" then
 				game.Players.LocalPlayer.Character.Humanoid.AutoRotate = false
 				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(thing), 0)
 			end
@@ -584,13 +584,9 @@ end)
 
 AimbotTabCategoryAntiAimbot:AddDropdown("Pitch", {"Default", "Up", "Down", "Dick suck", "Boneless", "Broken back", "Stroke", "Random"}, "Default", "AimbotTabCategoryAntiAimbotPitch")
 
-AimbotTabCategoryAntiAimbot:AddDropdown("Yaw", {"Default", "Forward", "Backward", "Left", "Right"}, "Default", "AimbotTabCategoryAntiAimbotYaw")
-
-AimbotTabCategoryAntiAimbot:AddDropdown("Yaw modifier", {"None", "Jitter", "Spin"}, "None", "AimbotTabCategoryAntiAimbotYawmod")
+AimbotTabCategoryAntiAimbot:AddDropdown("Yaw", {"Default", "Forward", "Backward", "Left", "Right", "Jitter", "Spin"}, "Default", "AimbotTabCategoryAntiAimbotYaw")
 
 AimbotTabCategoryAntiAimbot:AddSlider("Yaw Strenght", {0, 100, 50, 1, ""}, "AimbotTabCategoryAntiAimbotYawStrenght")
-
-AimbotTabCategoryAntiAimbot:AddSlider("Jitter/Spin range", {0, 180, 50, 1, ""}, "AimbotTabCategoryAntiAimbotYawRange")
 
 AimbotTabCategoryAntiAimbot:AddToggle("Remove Head Hitbox", false, "AimbotTabCategoryAntiAimbotRemoveHeadHitbox")
 
