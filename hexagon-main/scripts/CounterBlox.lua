@@ -528,7 +528,7 @@ AimbotTabCategoryAntiAimbot:AddToggle("Enabled", false, "AimbotTabCategoryAntiAi
 		end
 
 		if cum == false then
-			thing = library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value - library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value - library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value
+			thing = library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value + 180 - library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value - library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value
 		end
 			
 		if IsAlive(LocalPlayer) and (library.pointers.AimbotTabCategoryAntiAimbotDisableWhileClimbing.value == false or cbClient.climbing == false) then
@@ -1251,14 +1251,13 @@ MiscellaneousTabCategoryMain:AddToggle("No Fire Damage", false, "MiscellaneousTa
 MiscellaneousTabCategoryMain:AddToggle("Kill All", false, "MiscellaneousTabCategoryMainKillAll", function(val)
 	if val == true then
 		KillAllLoop = game:GetService("RunService").RenderStepped:Connect(function()
-			wait()
 			pcall(function()
 				for i,v in pairs(game.Players:GetChildren()) do
 					if v ~= LocalPlayer and IsAlive(v) and IsAlive(LocalPlayer) then
 						local Arguments = {
-							[1] = v.Character.Head,
-							[2] = v.Character.Head.Position,
-							[3] = "Banana",
+							[1] = v.Character.Head or v.Character.Torso,
+							[2] = v.Character.Head.Position or v.Character.Torso,
+							[3] = "MG42",
 							[4] = 100,
 							[5] = LocalPlayer.Character.Gun,
 							[8] = 100,
@@ -1285,9 +1284,9 @@ MiscellaneousTabCategoryMain:AddToggle("Kill Enemies", false, "MiscellaneousTabC
 				for i,v in pairs(game.Players:GetChildren()) do
 					if v ~= LocalPlayer and IsAlive(v) and IsAlive(LocalPlayer) and GetTeam(v) ~= GetTeam(LocalPlayer) then
 						local Arguments = {
-							[1] = v.Character.Head,
-							[2] = v.Character.Head.Position,
-							[3] = "Banana",
+							[1] = v.Character.Head or v.Character.Torso,
+							[2] = v.Character.Head.Position or v.Character.Torso,
+							[3] = "MG42",
 							[4] = 100,
 							[5] = LocalPlayer.Character.Gun,
 							[8] = 100,
@@ -1422,35 +1421,77 @@ MiscellaneousTabCategoryBunnyHop:AddSlider("Maximum Velocity", {0, 100, 40, 1, "
 
 local MiscellaneousTabCategoryBacktrack = MiscellaneousTab:AddCategory("Backtrack", 2)
 
+local cock = false
+
 MiscellaneousTabCategoryBacktrack:AddToggle("Enabled", false, "MiscellaneousTabCategoryBacktrackEnabled", function(val)
 	if val == true then
-		Backtracking = RunService.RenderStepped:Connect(function()
-			if IsAlive(LocalPlayer) then
-				for i,v in pairs(game.Players:GetPlayers()) do
-					if IsAlive(v) and GetTeam(v) ~= GetTeam(LocalPlayer) then
-						local NewBacktrackPart = Instance.new("Part")
-						NewBacktrackPart.Name = v.Name
-						NewBacktrackPart.Anchored = true
-						NewBacktrackPart.CanCollide = false
-						NewBacktrackPart.Transparency = library.pointers.MiscellaneousTabCategoryBacktrackTransparency.value
-						NewBacktrackPart.Color = library.pointers.MiscellaneousTabCategoryBacktrackColor.value
-						NewBacktrackPart.Size = v.Character.Head.Size
-						NewBacktrackPart.CFrame = v.Character.Head.CFrame
-						NewBacktrackPart.Parent = HexagonFolder
-						
-						local BacktrackTag = Instance.new("ObjectValue")
-						BacktrackTag.Parent = NewBacktrackPart
-						BacktrackTag.Name = "PlayerName"
-						BacktrackTag.Value = v
-						
-						spawn(function()
-							wait(library.pointers.MiscellaneousTabCategoryBacktrackTime.value/1000)
-							NewBacktrackPart:Destroy()
-						end)
+		cock = false
+		if cock == false then
+			Backtracking = RunService.RenderStepped:Connect(function()
+				if IsAlive(LocalPlayer) then
+					for i,v in pairs(game.Players:GetPlayers()) do
+						if IsAlive(v) and GetTeam(v) ~= GetTeam(LocalPlayer) then
+							local NewBacktrackPart = Instance.new("Part")
+							NewBacktrackPart.Name = v.Name
+							NewBacktrackPart.Anchored = true
+							NewBacktrackPart.CanCollide = false
+							NewBacktrackPart.Transparency = library.pointers.MiscellaneousTabCategoryBacktrackTransparency.value
+							NewBacktrackPart.Color = library.pointers.MiscellaneousTabCategoryBacktrackColor.value
+							NewBacktrackPart.Size = v.Character.Head.Size
+							NewBacktrackPart.CFrame = v.Character.Head.CFrame
+							NewBacktrackPart.Parent = HexagonFolder
+							
+							local BacktrackTag = Instance.new("ObjectValue")
+							BacktrackTag.Parent = NewBacktrackPart
+							BacktrackTag.Name = "PlayerName"
+							BacktrackTag.Value = v
+							
+							spawn(function()
+								wait(library.pointers.MiscellaneousTabCategoryBacktrackTime.value/1000)
+								NewBacktrackPart:Destroy()
+							end)
+						end
 					end
 				end
-			end
-		end)
+			end)
+		end
+	elseif val == false and Backtracking then
+		Backtracking:Disconnect()
+	end
+end)
+
+MiscellaneousTabCategoryBacktrack:AddToggle("Skeet backtrack", false, "MiscellaneousTabCategoryBacktrackSkeet", function(val)
+	if val == true and library.pointers.MiscellaneousTabCategoryBacktrackEnabled.value == true then
+		cock = true
+		if cock == true then
+			BacktrackingSkeet = RunService.RenderStepped:Connect(function()
+				if IsAlive(LocalPlayer) then
+					for i,v in pairs(game.Players:GetPlayers()) do
+						if IsAlive(v) and GetTeam(v) ~= GetTeam(LocalPlayer) then
+							local NewBacktrackPart = Instance.new("Part")
+							NewBacktrackPart.Name = v.Name
+							NewBacktrackPart.Anchored = true
+							NewBacktrackPart.CanCollide = false
+							NewBacktrackPart.Transparency = library.pointers.MiscellaneousTabCategoryBacktrackTransparency.value
+							NewBacktrackPart.Color = library.pointers.MiscellaneousTabCategoryBacktrackColor.value
+							NewBacktrackPart.Size = v.Character.Head.Size
+							NewBacktrackPart.CFrame = v.Character.Head.CFrame
+							NewBacktrackPart.Parent = HexagonFolder
+							
+							local BacktrackTag = Instance.new("ObjectValue")
+							BacktrackTag.Parent = NewBacktrackPart
+							BacktrackTag.Name = "PlayerName"
+							BacktrackTag.Value = v
+							
+							spawn(function()
+								wait(5000/700)
+								NewBacktrackPart:Destroy()
+							end)
+						end
+					end
+				end
+			end)
+		end
 	elseif val == false and Backtracking then
 		Backtracking:Disconnect()
 	end
