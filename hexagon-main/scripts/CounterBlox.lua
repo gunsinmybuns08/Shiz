@@ -494,7 +494,7 @@ AimbotTabCategoryLegitbot:AddDropdown("Hitbox Priority", {"FOV", "Distance"}, "F
 
 AimbotTabCategoryLegitbot:AddDropdown("Target Priority", {"FOV", "Distance"}, "FOV", "AimbotTabCategoryLegitbotTargetPriority")
 
-AimbotTabCategoryLegitbot:AddSlider("Field of View", {0, 360, 0, 1, "°"}, "AimbotTabCategoryLegitbotFOV", function(val)
+AimbotTabCategoryLegitbot:AddSlider("Field of View", {0, 1000, 0, 1, "°"}, "AimbotTabCategoryLegitbotFOV", function(val)
 	FOVCircle.Radius = val
 end)
 
@@ -510,6 +510,27 @@ AimbotTabCategoryAntiAimbot:AddToggle("Enabled", false, "AimbotTabCategoryAntiAi
 	AntiAimbot = val
 	
 	while AntiAimbot do
+		local cum = true
+		local thing = nil
+		local timer = 0
+		timer = timer + 1
+
+		if timer > 3 then
+			if cum then
+				cum = false
+			else
+				cum = true
+			end
+		end
+
+		if cum == true then
+			thing = library.pointers.AimbotTabCategoryAntiAimbotYawRange.value
+		end
+
+		if cum == false then
+			thing = library.pointers.AimbotTabCategoryAntiAimbotYawRange.value - library.pointers.AimbotTabCategoryAntiAimbotYawRange.value - library.pointers.AimbotTabCategoryAntiAimbotYawRange.value 
+		end
+			
 		if IsAlive(LocalPlayer) and (library.pointers.AimbotTabCategoryAntiAimbotDisableWhileClimbing.value == false or cbClient.climbing == false) then
 			function RotatePlayer(pos)
 				local Gyro = Instance.new('BodyGyro')
@@ -542,11 +563,14 @@ AimbotTabCategoryAntiAimbot:AddToggle("Enabled", false, "AimbotTabCategoryAntiAi
 					library.pointers.AimbotTabCategoryAntiAimbotYaw.value == "Right" and CFrame.new(180, 0, 0)
 				)
 				RotatePlayer(workspace.CurrentCamera.CFrame * Angle)
-			elseif library.pointers.AimbotTabCategoryAntiAimbotYaw.value == "Spin" then
+			elseif library.pointers.AimbotTabCategoryAntiAimbotYawmod.value == "Spin" then
 				game.Players.LocalPlayer.Character.Humanoid.AutoRotate = false
-				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value), 0)
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(library.pointers.AimbotTabCategoryAntiAimbotYawRange.value), 0)
 			elseif game.Players.LocalPlayer.Character.Humanoid.AutoRotate == false then
 				game.Players.LocalPlayer.Character.Humanoid.AutoRotate = true
+			elseif library.pointers.AimbotTabCategoryAntiAimbotYawmod.value == "Jitter" then
+				game.Players.LocalPlayer.Character.Humanoid.AutoRotate = false
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(thing), 0)
 			end
 		end
 
@@ -558,11 +582,15 @@ AimbotTabCategoryAntiAimbot:AddToggle("Enabled", false, "AimbotTabCategoryAntiAi
 	end
 end)
 
-AimbotTabCategoryAntiAimbot:AddDropdown("Pitch", {"Default", "Up", "Down", "Boneless", "Random"}, "Default", "AimbotTabCategoryAntiAimbotPitch")
+AimbotTabCategoryAntiAimbot:AddDropdown("Pitch", {"Default", "Up", "Down", "Dick suck", "Boneless", "Broken back", "Stroke", "Random"}, "Default", "AimbotTabCategoryAntiAimbotPitch")
 
-AimbotTabCategoryAntiAimbot:AddDropdown("Yaw", {"Default", "Forward", "Backward", "Left", "Right", "Spin"}, "Default", "AimbotTabCategoryAntiAimbotYaw")
+AimbotTabCategoryAntiAimbot:AddDropdown("Yaw", {"Default", "Forward", "Backward", "Left", "Right"}, "Default", "AimbotTabCategoryAntiAimbotYaw")
+
+AimbotTabCategoryAntiAimbot:AddDropdown("Yaw modifier", {"None", "Jitter", "Spin"}, "None", "AimbotTabCategoryAntiAimbotYawmod")
 
 AimbotTabCategoryAntiAimbot:AddSlider("Yaw Strenght", {0, 100, 50, 1, ""}, "AimbotTabCategoryAntiAimbotYawStrenght")
+
+AimbotTabCategoryAntiAimbot:AddSlider("Jitter/Spin range", {0, 180, 50, 1, ""}, "AimbotTabCategoryAntiAimbotYawRange")
 
 AimbotTabCategoryAntiAimbot:AddToggle("Remove Head Hitbox", false, "AimbotTabCategoryAntiAimbotRemoveHeadHitbox")
 
@@ -586,6 +614,10 @@ end)
 
 AimbotTabCategoryAntiAimbot:AddKeybind("Manual Spin", nil, "AimbotTabCategoryAntiAimbotManualSpin", function(val)
 	if val == true and UserInputService:GetFocusedTextBox() == nil then library.pointers.AimbotTabCategoryAntiAimbotYaw:Set("Spin") end
+end)
+
+AimbotTabCategoryAntiAimbot:AddKeybind("Manual Jitter", nil, "AimbotTabCategoryAntiAimbotManualJitter", function(val)
+	if val == true and UserInputService:GetFocusedTextBox() == nil then library.pointers.AimbotTabCategoryAntiAimbotYaw:Set("Jitter") end
 end)
 
 
@@ -812,7 +844,7 @@ VisualsTabCategoryViewmodelColors:AddLabel("")
 VisualsTabCategoryViewmodelColors:AddLabel("Weapons")
 VisualsTabCategoryViewmodelColors:AddToggle("Enabled", false, "VisualsTabCategoryViewmodelColorsWeapons")
 VisualsTabCategoryViewmodelColors:AddColorPicker("Color", Color3.new(1,1,1), "VisualsTabCategoryViewmodelColorsWeaponsColor")
-VisualsTabCategoryViewmodelColors:AddDropdown("Material", {"SmoothPlastic", "Neon", "ForceField", "Wood", "Glass", "DiamondPlate", "Ice", "Marble"}, "SmoothPlastic", "VisualsTabCategoryViewmodelColorsWeaponsMaterial")
+VisualsTabCategoryViewmodelColors:AddDropdown("Material", {"SmoothPlastic", "Neon", "ForceField", "Wood", "Foil", "CrackedLava"}, "SmoothPlastic", "VisualsTabCategoryViewmodelColorsWeaponsMaterial")
 VisualsTabCategoryViewmodelColors:AddSlider("Transparency", {0, 1, 0, 0.01, ""}, "VisualsTabCategoryViewmodelColorsWeaponsTransparency")
 
 local VisualsTabCategoryFOVCircle = VisualsTab:AddCategory("FOV Circle", 2)
@@ -1724,16 +1756,20 @@ workspace.CurrentCamera.ChildAdded:Connect(function(new)
 
 				if library.pointers.VisualsTabCategoryViewmodelColorsSleeves.value == true then
 					if RightSleeve ~= nil then
+						if v:IsA("MeshPart") then v.TextureID = "" end
+						if v:FindFirstChildOfClass("SpecialMesh") then v:FindFirstChildOfClass("SpecialMesh").TextureId = "" end
 						RightSleeve.Mesh.TextureId = ""
 						RightSleeve.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsSleevesTransparency.value
 						RightSleeve.Color = library.pointers.VisualsTabCategoryViewmodelColorsSleevesColor.value
-						RightSleeve.Material = "ForceField"
+						RightSleeve.Material = "Wood"
 					end
 					if LeftSleeve ~= nil then
+						if v:IsA("MeshPart") then v.TextureID = "" end
+						if v:FindFirstChildOfClass("SpecialMesh") then v:FindFirstChildOfClass("SpecialMesh").TextureId = "" end
 						LeftSleeve.Mesh.TextureId = ""
 						LeftSleeve.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsSleevesTransparency.value
 						LeftSleeve.Color = library.pointers.VisualsTabCategoryViewmodelColorsSleevesColor.value
-						LeftSleeve.Material = "ForceField"
+						LeftSleeve.Material = "Wood"
 					end
 				end
 			elseif library.pointers.VisualsTabCategoryViewmodelColorsWeapons.value == true and v:IsA("BasePart") and not table.find({"Right Arm", "Left Arm", "Flash"}, v.Name) and v.Transparency ~= 1 then
@@ -1989,7 +2025,13 @@ oldNamecall = hookfunc(mt.__namecall, newcclosure(function(self, ...)
     local method = getnamecallmethod()
 	local callingscript = getcallingscript()
     local args = {...}
-	
+	local cock = 0
+	cock = cock + 1
+	if cock == 5 then
+		cock = cock + 1
+		cock = 0
+	end
+
 	if not checkcaller() then
 		if method == "Kick" then
 			return
@@ -2005,6 +2047,9 @@ oldNamecall = hookfunc(mt.__namecall, newcclosure(function(self, ...)
 					library.pointers.AimbotTabCategoryAntiAimbotPitch.value == "Up" and 1 or
 					library.pointers.AimbotTabCategoryAntiAimbotPitch.value == "Down" and -1 or
 					library.pointers.AimbotTabCategoryAntiAimbotPitch.value == "Boneless" and -5 or
+					library.pointers.AimbotTabCategoryAntiAimbotPitch.value == "Broken back" and 2.5 or
+					library.pointers.AimbotTabCategoryAntiAimbotPitch.value == "Dick suck" and -2.5 or
+					library.pointers.AimbotTabCategoryAntiAimbotPitch.value == "Stroke" and (math.random(-5,5) == math.random(1,2) and math.random(3,-3) or -math.random(-3, 4)) or
 					library.pointers.AimbotTabCategoryAntiAimbotPitch.value == "Random" and (math.random(1,2) == 1 and 1 or -1)
 				)
 				if angle then
