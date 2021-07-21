@@ -678,7 +678,7 @@ function library:CreateWindow(csize, cpos)
 				Size = UDim2.new(1,0,0,0),
 				BackgroundColor3 = library.theme.tabselected,
 				BorderColor3 = library.theme.outline,
-				BorderSizePixel = 2,
+				BorderSizePixel = 0,
 				BorderMode = "Outline",
 				Parent = self.row
 			})
