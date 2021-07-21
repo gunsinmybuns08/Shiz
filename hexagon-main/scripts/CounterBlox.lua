@@ -474,6 +474,7 @@ AimbotTabCategoryLegitbot:AddToggle("Enabled", false, "AimbotTabCategoryLegitbot
 			else
 				if SilentLegitbot.target ~= nil then SilentLegitbot.target = nil end
 			end
+
 		end)
 	elseif val == false and LegitbotLoop then
 		LegitbotLoop:Disconnect()
@@ -565,12 +566,12 @@ AimbotTabCategoryAntiAimbot:AddToggle("Enabled", false, "AimbotTabCategoryAntiAi
 				RotatePlayer(workspace.CurrentCamera.CFrame * Angle)
 			elseif library.pointers.AimbotTabCategoryAntiAimbotYaw.value == "Spin" then
 				game.Players.LocalPlayer.Character.Humanoid.AutoRotate = false
-				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(library.pointers.AimbotTabCategoryAntiAimbotYawRange.value), 0)
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(thing), 0)
 			elseif game.Players.LocalPlayer.Character.Humanoid.AutoRotate == false then
 				game.Players.LocalPlayer.Character.Humanoid.AutoRotate = true
 			elseif library.pointers.AimbotTabCategoryAntiAimbotYaw.value == "Jitter" then
 				game.Players.LocalPlayer.Character.Humanoid.AutoRotate = false
-				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(thing), 0)
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(library.pointers.AimbotTabCategoryAntiAimbotYawStrenght.value), 0)
 			end
 		end
 
@@ -586,7 +587,7 @@ AimbotTabCategoryAntiAimbot:AddDropdown("Pitch", {"Default", "Up", "Down", "Dick
 
 AimbotTabCategoryAntiAimbot:AddDropdown("Yaw", {"Default", "Forward", "Backward", "Left", "Right", "Jitter", "Spin"}, "Default", "AimbotTabCategoryAntiAimbotYaw")
 
-AimbotTabCategoryAntiAimbot:AddSlider("Yaw Strenght", {0, 100, 50, 1, ""}, "AimbotTabCategoryAntiAimbotYawStrenght")
+AimbotTabCategoryAntiAimbot:AddSlider("Yaw Strenght", {0, 180, 50, 1, ""}, "AimbotTabCategoryAntiAimbotYawStrenght")
 
 AimbotTabCategoryAntiAimbot:AddToggle("Remove Head Hitbox", false, "AimbotTabCategoryAntiAimbotRemoveHeadHitbox")
 
@@ -747,9 +748,7 @@ VisualsTabCategoryOthers:AddMultiDropdown("Remove Effects", {"Scope", "Flash", "
 	end
 end)
 
-VisualsTabCategoryOthers:AddColorPicker("Ambient", Color3.new(1,1,1), "VisualsTabCategoryOthersAmbient", function(val)
-	workspace.CurrentCamera.ColorCorrection.TintColor = val
-end)
+
 
 VisualsTabCategoryOthers:AddDropdown("Skybox", TableToNames(Skyboxes), "Default", "VisualsTabCategoryOthersSkybox", function(val)
 	if game.Lighting:FindFirstChild("HEXAGON_SKYBOX") then
@@ -810,6 +809,8 @@ VisualsTabCategoryOthers:AddToggle("Bullet Tracers", false, "VisualsTabCategoryO
 
 VisualsTabCategoryOthers:AddColorPicker("Bullet Tracers Color", Color3.new(0,0.5,1), "VisualsTabCategoryOthersBulletTracersColor")
 
+VisualsTabCategoryOthers:AddDropdown("Bullet Tracers Material", {"SmoothPlastic", "Neon", "ForceField", "Glass"}, "SmoothPlastic", "VisualsTabCategoryOthersBulletTracersMaterial")
+
 VisualsTabCategoryOthers:AddToggle("Bullet Impacts", false, "VisualsTabCategoryOthersBulletImpacts")
 
 VisualsTabCategoryOthers:AddColorPicker("Bullet Impacts Color", Color3.new(1,0,0), "VisualsTabCategoryOthersBulletImpactsColor")
@@ -840,7 +841,7 @@ VisualsTabCategoryViewmodelColors:AddLabel("")
 VisualsTabCategoryViewmodelColors:AddLabel("Weapons")
 VisualsTabCategoryViewmodelColors:AddToggle("Enabled", false, "VisualsTabCategoryViewmodelColorsWeapons")
 VisualsTabCategoryViewmodelColors:AddColorPicker("Color", Color3.new(1,1,1), "VisualsTabCategoryViewmodelColorsWeaponsColor")
-VisualsTabCategoryViewmodelColors:AddDropdown("Material", {"SmoothPlastic", "Neon", "ForceField", "Wood", "Foil", "CrackedLava"}, "SmoothPlastic", "VisualsTabCategoryViewmodelColorsWeaponsMaterial")
+VisualsTabCategoryViewmodelColors:AddDropdown("Material", {"SmoothPlastic", "Neon", "ForceField", "Wood"}, "SmoothPlastic", "VisualsTabCategoryViewmodelColorsWeaponsMaterial")
 VisualsTabCategoryViewmodelColors:AddSlider("Transparency", {0, 1, 0, 0.01, ""}, "VisualsTabCategoryViewmodelColorsWeaponsTransparency")
 
 local VisualsTabCategoryFOVCircle = VisualsTab:AddCategory("FOV Circle", 2)
@@ -926,7 +927,99 @@ VisualsTabCategoryThirdPerson:AddKeybind("Keybind", nil, "VisualsTabCategoryThir
 	end
 end)
 
+
+
+
 VisualsTabCategoryThirdPerson:AddSlider("Distance", {0, 50, 10, 1, ""}, "VisualsTabCategoryThirdPersonDistance")
+
+local WorldTab = Window:CreateTab("World")
+
+game.Workspace.CurrentCamera.ColorCorrection:Destroy()
+local color = Instance.new("ColorCorrectionEffect")
+color.Parent = game.Lighting
+
+local WorldTabCategoryColor = WorldTab:AddCategory("Colors", 1)
+
+WorldTabCategoryColor:AddColorPicker("Ambient", Color3.new(1,1,1), "WorldTabCategoryOthersAmbient", function(val)
+	game.Lighting.ColorCorrection.TintColor = val
+end)
+
+WorldTabCategoryColor:AddSlider("Saturation", {-1, 2, 0, 0.1, ""}, "WorldTabCategoryOthersSaturation", function(val)
+	game.Lighting.ColorCorrection.Saturation = val
+end)
+
+WorldTabCategoryColor:AddSlider("Brightness", {-1, 2, 0, 0.1, ""}, "WorldTabCategoryOthersBrightness", function(val)
+	game.Lighting.ColorCorrection.Brightness = val
+end)
+
+WorldTabCategoryColor:AddSlider("Contrast", {-1, 2, 0, 0.1, ""}, "WorldTabCategoryOthersContrast", function(val)
+	game.Lighting.ColorCorrection.Contrast = val
+end)
+
+local WorldTabCategoryBloom = WorldTab:AddCategory("Bloom", 1)
+
+local Bloom = Instance.new("BloomEffect")
+Bloom.Parent = game.Lighting
+
+
+WorldTabCategoryBloom:AddSlider("Intensity", {0, 10, 0, 0.1, ""}, "WorldTabCategoryOthersIntensity", function(val)
+	game.Lighting.Bloom.Intensity = val
+end)
+
+WorldTabCategoryBloom:AddSlider("Size", {0, 56, 0, 0.1, ""}, "WorldTabCategoryOthersSize", function(val)
+	game.Lighting.Bloom.Size = val
+end)
+
+WorldTabCategoryBloom:AddSlider("Threshold", {0.8, 4, 0, 0.1, ""}, "WorldTabCategoryOthersThreshold", function(val)
+	game.Lighting.Bloom.Threshold = val
+end)
+
+local WorldTabCategoryBlur = WorldTab:AddCategory("Blur", 1)
+
+local Blur = Instance.new("BlurEffect")
+Blur.Parent = game.Lighting
+
+WorldTabCategoryBlur:AddSlider("Size", {0, 56, 0, 0.1, ""}, "WorldTabCategoryOthersSizeBlur", function(val)
+	game.Lighting.Blur.Size = val
+end)
+
+local WorldTabCategoryOtherVisuals = WorldTab:AddCategory("Other", 2)
+
+WorldTabCategoryOtherVisuals:AddToggle("Enable time", false, "WorldTabCategoryOtherTimeEnable")
+
+WorldTabCategoryOtherVisuals:AddSlider("Time of day", {0, 23, 1, 1, ""}, "WorldTabCategoryOtherTime", function(val)
+	if library.pointers.WorldTabCategoryOtherTimeEnable.value == true then
+			game.Lighting.ClockTime = val
+	elseif library.pointers.WorldTabCategoryOtherTimeEnable.value == false then
+		game.Lighting.ClockTime = 13
+	end
+end)
+
+WorldTabCategoryOtherVisuals:AddToggle("Enable Fog", false, "WorldTabCategoryOtherFogEnable")
+
+WorldTabCategoryOtherVisuals:AddColorPicker("Fog color", Color3.new(191, 191, 191), "WorldTabCategoryOtherFogColor", function(val)
+	if library.pointers.WorldTabCategoryOtherFogEnable.value == true then
+		game.Lighting.FogColor = val
+	end
+end)
+
+WorldTabCategoryOtherVisuals:AddSlider("Fog start", {0, 1000, 1, 1, ""}, "WorldTabCategoryOtherFogStart", function(val)
+	if library.pointers.WorldTabCategoryOtherFogEnable.value == true then
+		game.Lighting.FogStart = val
+	elseif library.pointers.WorldTabCategoryOtherFogEnable.value == false then
+		game.Lighting.FogStart = 0
+	end
+end)
+
+WorldTabCategoryOtherVisuals:AddSlider("Fog end", {0, 1000, 1, 1, ""}, "WorldTabCategoryOtherFogEnd", function(val)
+	if library.pointers.WorldTabCategoryOtherFogEnable.value == true then
+		game.Lighting.FogEnd = val
+	elseif library.pointers.WorldTabCategoryOtherFogEnable.value == false then
+		game.Lighting.FogEnd = 100000
+	end
+end)
+
+
 
 
 local MiscellaneousTab = Window:CreateTab("Miscellaneous")
@@ -1251,13 +1344,14 @@ MiscellaneousTabCategoryMain:AddToggle("No Fire Damage", false, "MiscellaneousTa
 MiscellaneousTabCategoryMain:AddToggle("Kill All", false, "MiscellaneousTabCategoryMainKillAll", function(val)
 	if val == true then
 		KillAllLoop = game:GetService("RunService").RenderStepped:Connect(function()
+			wait()
 			pcall(function()
 				for i,v in pairs(game.Players:GetChildren()) do
 					if v ~= LocalPlayer and IsAlive(v) and IsAlive(LocalPlayer) then
 						local Arguments = {
-							[1] = v.Character.Head or v.Character.Torso,
-							[2] = v.Character.Head.Position or v.Character.Torso,
-							[3] = "MG42",
+							[1] = v.Character.Head,
+							[2] = v.Character.Head.Position,
+							[3] = "Glock18",
 							[4] = 100,
 							[5] = LocalPlayer.Character.Gun,
 							[8] = 100,
@@ -1284,9 +1378,9 @@ MiscellaneousTabCategoryMain:AddToggle("Kill Enemies", false, "MiscellaneousTabC
 				for i,v in pairs(game.Players:GetChildren()) do
 					if v ~= LocalPlayer and IsAlive(v) and IsAlive(LocalPlayer) and GetTeam(v) ~= GetTeam(LocalPlayer) then
 						local Arguments = {
-							[1] = v.Character.Head or v.Character.Torso,
-							[2] = v.Character.Head.Position or v.Character.Torso,
-							[3] = "MG42",
+							[1] = v.Character.Head,
+							[2] = v.Character.Head.Position,
+							[3] = "Glock18",
 							[4] = 100,
 							[5] = LocalPlayer.Character.Gun,
 							[8] = 100,
@@ -1619,7 +1713,7 @@ SettingsTabCategoryMain:AddTextBox("Clantag", "", "SettingsTabCategoryMainClanta
 			for i=1,4 do
 				game.Players.LocalPlayer.OsPlatform = "|"..val
 				wait(0.15)
-				game.Players.LocalPlayer.OsPlatform = "|"..string.rep("*", #val)
+				game.Players.LocalPlayer.OsPlatform = "|"..string.rep("*-*", #val)
 				wait(0.15)
 			end
 			wait(0.5)
@@ -1753,72 +1847,68 @@ workspace.CurrentCamera.ChildAdded:Connect(function(new)
 		cbClient.secondarystored = 999999 -- secondary stored
 	end
 	spawn(function()
-	if new.Name == "Arms" and new:IsA("Model") and library.pointers.VisualsTabCategoryViewmodelColorsEnabled.value == true then
-		for i,v in pairs(new:GetChildren()) do
-			if v:IsA("Model") and v:FindFirstChild("Right Arm") or v:FindFirstChild("Left Arm") then
-				local RightArm = v:FindFirstChild("Right Arm") or nil
-				local LeftArm = v:FindFirstChild("Left Arm") or nil
+		if new.Name == "Arms" and new:IsA("Model") and library.pointers.VisualsTabCategoryViewmodelColorsEnabled.value == true then
+			for i,v in pairs(new:GetChildren()) do
+				if v:IsA("Model") and v:FindFirstChild("Right Arm") or v:FindFirstChild("Left Arm") then 
+					local RightArm = v:FindFirstChild("Right Arm") or nil
+					local LeftArm = v:FindFirstChild("Left Arm") or nil
+						
+					local RightGlove = (RightArm and (RightArm:FindFirstChild("Glove") or RightArm:FindFirstChild("RGlove"))) or nil
+					local LeftGlove = (LeftArm and (LeftArm:FindFirstChild("Glove") or LeftArm:FindFirstChild("LGlove"))) or nil
+						
+					local RightSleeve = RightArm and RightArm:FindFirstChild("Sleeve") or nil
+					local LeftSleeve = LeftArm and LeftArm:FindFirstChild("Sleeve") or nil
 					
-				local RightGlove = (RightArm and (RightArm:FindFirstChild("Glove") or RightArm:FindFirstChild("RGlove"))) or nil
-				local LeftGlove = (LeftArm and (LeftArm:FindFirstChild("Glove") or LeftArm:FindFirstChild("LGlove"))) or nil
+					if library.pointers.VisualsTabCategoryViewmodelColorsArms.value == true then
+						if RightArm ~= nil then
+							RightArm.Mesh.TextureId = ""
+							RightArm.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsArmsTransparency.value
+							RightArm.Color = library.pointers.VisualsTabCategoryViewmodelColorsArmsColor.value
+						end
+						if LeftArm ~= nil then
+							LeftArm.Mesh.TextureId = ""
+							LeftArm.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsArmsTransparency.value
+							LeftArm.Color = library.pointers.VisualsTabCategoryViewmodelColorsArmsColor.value
+						end
+					end
 					
-				local RightSleeve = RightArm and RightArm:FindFirstChild("Sleeve") or nil
-				local LeftSleeve = LeftArm and LeftArm:FindFirstChild("Sleeve") or nil
-				
-				if library.pointers.VisualsTabCategoryViewmodelColorsArms.value == true then
-					if RightArm ~= nil then
-						RightArm.Mesh.TextureId = ""
-						RightArm.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsArmsTransparency.value
-						RightArm.Color = library.pointers.VisualsTabCategoryViewmodelColorsArmsColor.value
+					if library.pointers.VisualsTabCategoryViewmodelColorsGloves.value == true then
+						if RightGlove ~= nil then
+							RightGlove.Mesh.TextureId = ""
+							RightGlove.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsGlovesTransparency.value
+							RightGlove.Color = library.pointers.VisualsTabCategoryViewmodelColorsGlovesColor.value
+						end
+						if LeftGlove ~= nil then
+							LeftGlove.Mesh.TextureId = ""
+							LeftGlove.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsGlovesTransparency.value
+							LeftGlove.Color = library.pointers.VisualsTabCategoryViewmodelColorsGlovesColor.value
+						end
 					end
-					if LeftArm ~= nil then
-						LeftArm.Mesh.TextureId = ""
-						LeftArm.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsArmsTransparency.value
-						LeftArm.Color = library.pointers.VisualsTabCategoryViewmodelColorsArmsColor.value
-					end
-				end
-				
-				if library.pointers.VisualsTabCategoryViewmodelColorsGloves.value == true then
-					if RightGlove ~= nil then
-						RightGlove.Mesh.TextureId = ""
-						RightGlove.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsGlovesTransparency.value
-						RightGlove.Color = library.pointers.VisualsTabCategoryViewmodelColorsGlovesColor.value
-					end
-					if LeftGlove ~= nil then
-						LeftGlove.Mesh.TextureId = ""
-						LeftGlove.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsGlovesTransparency.value
-						LeftGlove.Color = library.pointers.VisualsTabCategoryViewmodelColorsGlovesColor.value
-					end
-				end
 
-				if library.pointers.VisualsTabCategoryViewmodelColorsSleeves.value == true then
-					if RightSleeve ~= nil then
-						if v:IsA("MeshPart") then v.TextureID = "" end
-						if v:FindFirstChildOfClass("SpecialMesh") then v:FindFirstChildOfClass("SpecialMesh").TextureId = "" end
-						RightSleeve.Mesh.TextureId = ""
-						RightSleeve.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsSleevesTransparency.value
-						RightSleeve.Color = library.pointers.VisualsTabCategoryViewmodelColorsSleevesColor.value
-						RightSleeve.Material = "Wood"
+					if library.pointers.VisualsTabCategoryViewmodelColorsSleeves.value == true then
+						if RightSleeve ~= nil then
+							RightSleeve.Mesh.TextureId = ""
+							RightSleeve.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsSleevesTransparency.value
+							RightSleeve.Color = library.pointers.VisualsTabCategoryViewmodelColorsSleevesColor.value
+							RightSleeve.Material = "ForceField"
+						end
+						if LeftSleeve ~= nil then
+							LeftSleeve.Mesh.TextureId = ""
+							LeftSleeve.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsSleevesTransparency.value
+							LeftSleeve.Color = library.pointers.VisualsTabCategoryViewmodelColorsSleevesColor.value
+							LeftSleeve.Material = "ForceField"
+						end
 					end
-					if LeftSleeve ~= nil then
-						if v:IsA("MeshPart") then v.TextureID = "" end
-						if v:FindFirstChildOfClass("SpecialMesh") then v:FindFirstChildOfClass("SpecialMesh").TextureId = "" end
-						LeftSleeve.Mesh.TextureId = ""
-						LeftSleeve.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsSleevesTransparency.value
-						LeftSleeve.Color = library.pointers.VisualsTabCategoryViewmodelColorsSleevesColor.value
-						LeftSleeve.Material = "Wood"
-					end
-				end
-			elseif library.pointers.VisualsTabCategoryViewmodelColorsWeapons.value == true and v:IsA("BasePart") and not table.find({"Right Arm", "Left Arm", "Flash"}, v.Name) and v.Transparency ~= 1 then
-				if v:IsA("MeshPart") then v.TextureID = "" end
-				if v:FindFirstChildOfClass("SpecialMesh") then v:FindFirstChildOfClass("SpecialMesh").TextureId = "" end
+				elseif library.pointers.VisualsTabCategoryViewmodelColorsWeapons.value == true and v:IsA("BasePart") and not table.find({"Right Arm", "Left Arm", "Flash"}, v.Name) and v.Transparency ~= 1 then
+					if v:IsA("MeshPart") then v.TextureID = "" end
+					if v:FindFirstChildOfClass("SpecialMesh") then v:FindFirstChildOfClass("SpecialMesh").TextureId = "" end
 
-				v.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsWeaponsTransparency.value
-				v.Color = library.pointers.VisualsTabCategoryViewmodelColorsWeaponsColor.value
-				v.Material = library.pointers.VisualsTabCategoryViewmodelColorsWeaponsMaterial.value
+					v.Transparency = library.pointers.VisualsTabCategoryViewmodelColorsWeaponsTransparency.value
+					v.Color = library.pointers.VisualsTabCategoryViewmodelColorsWeaponsColor.value
+					v.Material = library.pointers.VisualsTabCategoryViewmodelColorsWeaponsMaterial.value
+				end
 			end
 		end
-	end
 	end)
 end)
 
@@ -2104,7 +2194,7 @@ oldNamecall = hookfunc(mt.__namecall, newcclosure(function(self, ...)
 						local BulletTracers = Instance.new("Part")
 						BulletTracers.Anchored = true
 						BulletTracers.CanCollide = false
-						BulletTracers.Material = "ForceField"
+						BulletTracers.Material = library.pointers.VisualsTabCategoryOthersBulletTracersMateriald.value
 						BulletTracers.Color = library.pointers.VisualsTabCategoryOthersBulletTracersColor.value
 						BulletTracers.Size = Vector3.new(0.1, 0.1, (LocalPlayer.Character.Head.CFrame.p - args[2]).magnitude)
 						BulletTracers.CFrame = CFrame.new(LocalPlayer.Character.Head.CFrame.p, args[2]) * CFrame.new(0, 0, -BulletTracers.Size.Z / 2)
