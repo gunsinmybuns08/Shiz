@@ -766,6 +766,7 @@ function library:CreateWindow(csize, cpos)
 					BackgroundTransparency = 0,
 					Text = tostring(text),
 					TextColor3 = library.theme.text,
+					BorderSizePixel = 0,
 					Font = library.settings.font,
 					TextSize = library.settings.textsize,
 					TextStrokeTransparency = library.settings.textstroke and 0 or 1,
