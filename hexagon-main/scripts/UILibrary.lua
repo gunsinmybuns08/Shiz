@@ -730,6 +730,7 @@ function library:CreateWindow(csize, cpos)
 					BackgroundTransparency = 1,
 					Text = "",
 					TextColor3 = Color3.fromRGB(255, 255, 255),
+					BorderSizePixel = 0,
 					Font = library.settings.font,
 					TextSize = library.settings.textsize,
 					TextStrokeTransparency = library.settings.textstroke and 0 or 1,
