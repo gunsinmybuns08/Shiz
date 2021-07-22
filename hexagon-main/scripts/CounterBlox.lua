@@ -662,6 +662,51 @@ VisualsTabCategoryPlayers:AddColorPicker("Enemy Color", Color3.new(1,0,0), "Visu
 	ESP.EnemyColor = val
 end)
 
+VisualsTabCategoryPlayers:AddToggle("Chams", false, "VisualsTabCategoryPlayersChams", function(val)
+		if val == true then
+			function CreateSG(name,parent,face)
+				local SurfaceGui = Instance.new("SurfaceGui",parent)
+				SurfaceGui.Parent = parent
+				SurfaceGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+				SurfaceGui.Face = Enum.NormalId[face]
+				SurfaceGui.LightInfluence = 0
+				SurfaceGui.ResetOnSpawn = false
+				SurfaceGui.Name = name
+				SurfaceGui.AlwaysOnTop = true
+				local Frame = Instance.new("Frame",SurfaceGui)
+				Frame.BackgroundColor3 = library.pointers.VisualsTabCategoryPlayersChamsColor.value
+				Frame.Size = UDim2.new(1,0, 1,0)
+				Frame.BorderSizePixel = 0
+				Frame.BackgroundTransparency = library.pointers.VisualsTabCategoryPlayersChamsTransparency.value
+				if val == false then
+					SurfaceGui:Destroy()
+				end
+			end
+			while true do
+					wait()
+					for i,v in pairs (game:GetService("Players"):GetPlayers()) do
+						if v ~= game:GetService("Players").LocalPlayer and v.Character ~= nil and v.Character:FindFirstChild("Head") and v.Character.Head:FindFirstChild("cham") == nil and v ~= game.Players.LocalPlayer then
+						for i,v in pairs (v.Character:GetChildren()) do
+							if v:IsA("MeshPart") or v.Name == "Head" then
+							CreateSG("cham",v,"Back")
+							CreateSG("cham",v,"Front")
+							CreateSG("cham",v,"Left")
+							CreateSG("cham",v,"Right")
+							CreateSG("cham",v,"Right")
+							CreateSG("cham",v,"Top")
+							CreateSG("cham",v,"Bottom")
+							end
+						end
+					end
+				end
+			end
+		end
+end)
+
+VisualsTabCategoryPlayers:AddColorPicker("Chams color", Color3.new(255,255,255), "VisualsTabCategoryPlayersChamsColor")
+
+VisualsTabCategoryPlayers:AddSlider("Chams transparency", {0, 1, 0, 0.01, ""}, "VisualsTabCategoryPlayersChamsTransparency")
+
 local VisualsTabCategoryDroppedESP = VisualsTab:AddCategory("Dropped ESP", 1)
 
 VisualsTabCategoryDroppedESP:AddToggle("Enabled", false, "VisualsTabCategoryDroppedESPEnabled")
@@ -809,7 +854,7 @@ VisualsTabCategoryOthers:AddToggle("Bullet Tracers", false, "VisualsTabCategoryO
 
 VisualsTabCategoryOthers:AddColorPicker("Bullet Tracers Color", Color3.new(0,0.5,1), "VisualsTabCategoryOthersBulletTracersColor")
 
-VisualsTabCategoryOthers:AddDropdown("Bullet Tracers Material", {"SmoothPlastic", "Neon", "ForceField", "Glass"}, "SmoothPlastic", "VisualsTabCategoryOthersBulletTracersMaterial")
+VisualsTabCategoryOthers:AddDropdown("Bullet Tracers Material", {"SmoothPlastic", "Neon", "ForceField"}, "SmoothPlastic", "VisualsTabCategoryOthersBulletTracersMaterial")
 
 VisualsTabCategoryOthers:AddToggle("Bullet Impacts", false, "VisualsTabCategoryOthersBulletImpacts")
 
@@ -841,7 +886,7 @@ VisualsTabCategoryViewmodelColors:AddLabel("")
 VisualsTabCategoryViewmodelColors:AddLabel("Weapons")
 VisualsTabCategoryViewmodelColors:AddToggle("Enabled", false, "VisualsTabCategoryViewmodelColorsWeapons")
 VisualsTabCategoryViewmodelColors:AddColorPicker("Color", Color3.new(1,1,1), "VisualsTabCategoryViewmodelColorsWeaponsColor")
-VisualsTabCategoryViewmodelColors:AddDropdown("Material", {"SmoothPlastic", "Neon", "ForceField", "Wood"}, "SmoothPlastic", "VisualsTabCategoryViewmodelColorsWeaponsMaterial")
+VisualsTabCategoryViewmodelColors:AddDropdown("Material", {"SmoothPlastic", "Neon", "ForceField", "Glass"}, "SmoothPlastic", "VisualsTabCategoryViewmodelColorsWeaponsMaterial")
 VisualsTabCategoryViewmodelColors:AddSlider("Transparency", {0, 1, 0, 0.01, ""}, "VisualsTabCategoryViewmodelColorsWeaponsTransparency")
 
 local VisualsTabCategoryFOVCircle = VisualsTab:AddCategory("FOV Circle", 2)
@@ -987,13 +1032,21 @@ local WorldTabCategoryOtherVisuals = WorldTab:AddCategory("Other", 2)
 
 WorldTabCategoryOtherVisuals:AddToggle("Enable time", false, "WorldTabCategoryOtherTimeEnable")
 
-WorldTabCategoryOtherVisuals:AddSlider("Time of day", {0, 23, 1, 1, ""}, "WorldTabCategoryOtherTime", function(val)
+WorldTabCategoryOtherVisuals:AddSlider("Time of day", {0, 23, 1, 0.01, ""}, "WorldTabCategoryOtherTime", function(val)
 	if library.pointers.WorldTabCategoryOtherTimeEnable.value == true then
-			game.Lighting.ClockTime = val
+		game.Lighting.ClockTime = val
 	elseif library.pointers.WorldTabCategoryOtherTimeEnable.value == false then
 		game.Lighting.ClockTime = 13
 	end
 end)
+
+--[[
+WorldTabCategoryOtherVisuals:AddSlider("Geographic latitude (Sun/Moon positon)", {0, 113, 1, 1, ""}, "WorldTabCategoryOtherTimeGeographic", function(val)
+	if library.pointers.WorldTabCategoryOtherTimeGeographic.value == true then
+		sethiddenproperty(game:GetService("Lighting"), "GeographicLatitude", val)
+	end
+end)
+]]
 
 WorldTabCategoryOtherVisuals:AddToggle("Enable Fog", false, "WorldTabCategoryOtherFogEnable")
 
@@ -1018,6 +1071,9 @@ WorldTabCategoryOtherVisuals:AddSlider("Fog end", {0, 1000, 1, 1, ""}, "WorldTab
 		game.Lighting.FogEnd = 100000
 	end
 end)
+--[[WorldTabCategoryOtherVisuals:AddToggle("Better Shadows", false, "WorldTabCategoryOtherBetterShadows", function(ez)
+	sethiddenproperty(game:GetService("Lighting"), "Technology", "Future")
+end)]]
 
 
 
@@ -1404,6 +1460,7 @@ MiscellaneousTabCategoryMain:AddTextBox("Hit Sound", "", "MiscellaneousTabCatego
 
 MiscellaneousTabCategoryMain:AddTextBox("Kill Sound", "", "MiscellaneousTabCategoryMainKillSound")
 
+
 local MiscellaneousTabCategoryNoclip = MiscellaneousTab:AddCategory("Noclip", 1)
 
 MiscellaneousTabCategoryNoclip:AddToggle("Enabled", false, "MiscellaneousTabCategoryNoclipEnabled", function(val)
@@ -1518,7 +1575,6 @@ local MiscellaneousTabCategoryBacktrack = MiscellaneousTab:AddCategory("Backtrac
 
 MiscellaneousTabCategoryBacktrack:AddToggle("Enabled", false, "MiscellaneousTabCategoryBacktrackEnabled", function(val)
 	if val == true then
-		if cock == false then
 			Backtracking = RunService.RenderStepped:Connect(function()
 				if IsAlive(LocalPlayer) then
 					for i,v in pairs(game.Players:GetPlayers()) do
@@ -1529,7 +1585,7 @@ MiscellaneousTabCategoryBacktrack:AddToggle("Enabled", false, "MiscellaneousTabC
 							NewBacktrackPart.CanCollide = false
 							NewBacktrackPart.Transparency = library.pointers.MiscellaneousTabCategoryBacktrackTransparency.value
 							NewBacktrackPart.Color = library.pointers.MiscellaneousTabCategoryBacktrackColor.value
-							NewBacktrackPart.Size = v.Character.Head.Size
+							NewBacktrackPart.Size = v.Character.Head.CFrame
 							NewBacktrackPart.CFrame = v.Character.Head.CFrame
 							NewBacktrackPart.Parent = SexagonFolder
 							
@@ -1634,6 +1690,7 @@ MiscellaneousTabCategoryKeybinds:AddKeybind("Teleport", nil, "MiscellaneousTabCa
 		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Mouse.Hit.p + Vector3.new(0, 2.5, 0))
 	end
 end)
+
 
 
 
@@ -2304,7 +2361,7 @@ end))
 
 getsenv(game.Players.LocalPlayer.PlayerGui.GUI.Main.Chats.DisplayChat).createNewMessage = function(plr, msg, teamcolor, msgcolor, offset, line)
 	if library.pointers.MiscellaneousTabCategoryMainNNSDontTalk.value == true and plr ~= game.Players.LocalPlayer.Name then
-		msg = "I am retarded."
+		msg = "I am a faggot"
 	end
 	
 	return createNewMessage(plr, msg, teamcolor, msgcolor, offset, line)
