@@ -4,12 +4,12 @@ Modification by Bigmilk#1111
 --]]
 
 local Hint = Instance.new("Hint", game.CoreGui)
-Hint.Text = "Hexagon | Waiting for the game to load..."
+Hint.Text = "Sexagon | Waiting for the game to load..."
 
 repeat wait() until game:IsLoaded()
 repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("GUI")
 
-Hint.Text = "Hexagon | Setting up environment..."
+Hint.Text = "Sexagon | Setting up environment..."
 
 -- Services
 local UserInputService = game:GetService("UserInputService")
@@ -30,44 +30,44 @@ if (listfiles == false) then return game.Players.LocalPlayer:Kick("Exploit not s
 if (isfolder == false) then return game.Players.LocalPlayer:Kick("Exploit not supported! Missing: isfolder.") end
 if (hookfunc == false) then return game.Players.LocalPlayer:Kick("Exploit not supported! Missing: hookfunc.") end
 
-Hint.Text = "Hexagon | Setting up configuration settings..."
+Hint.Text = "Sexagon | Setting up configuration settings..."
 
-if not isfolder("hexagon") then
-	print("creating hexagon folder")
-	makefolder("hexagon")
+if not isfolder("Sexagon") then
+	print("creating Sexagon folder")
+	makefolder("Sexagon")
 end
 
-if not isfolder("hexagon/configs") then
-	print("creating hexagon configs folder")
-	makefolder("hexagon/configs")
+if not isfolder("Sexagon/configs") then
+	print("creating Sexagon configs folder")
+	makefolder("Sexagon/configs")
 end
 
-if not isfile("hexagon/autoload.txt") then
-	print("creating hexagon autoload file")
-	writefile("hexagon/autoload.txt", "")
+if not isfile("Sexagon/autoload.txt") then
+	print("creating Sexagon autoload file")
+	writefile("Sexagon/autoload.txt", "")
 end
 
-if not isfile("hexagon/custom_skins.txt") then
-	print("downloading hexagon custom skins file")
-	writefile("hexagon/custom_skins.txt", game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/default_data/custom_skins.txt"))
+if not isfile("Sexagon/custom_skins.txt") then
+	print("downloading Sexagon custom skins file")
+	writefile("Sexagon/custom_skins.txt", game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/default_data/custom_skins.txt"))
 end
 
-if not isfile("hexagon/custom_models.txt") then
-	print("downloading hexagon custom models file")
-	writefile("hexagon/custom_models.txt", game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/default_data/custom_models.txt"))
+if not isfile("Sexagon/custom_models.txt") then
+	print("downloading Sexagon custom models file")
+	writefile("Sexagon/custom_models.txt", game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/default_data/custom_models.txt"))
 end
 
-if not isfile("hexagon/inventories.txt") then
-	print("downloading hexagon inventories file")
-	writefile("hexagon/inventories.txt", game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/default_data/inventories.txt"))
+if not isfile("Sexagon/inventories.txt") then
+	print("downloading Sexagon inventories file")
+	writefile("Sexagon/inventories.txt", game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/default_data/inventories.txt"))
 end
 
-if not isfile("hexagon/skyboxes.txt") then
-	print("downloading hexagon skyboxes file")
-	writefile("hexagon/skyboxes.txt", game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/default_data/skyboxes.txt"))
+if not isfile("Sexagon/skyboxes.txt") then
+	print("downloading Sexagon skyboxes file")
+	writefile("Sexagon/skyboxes.txt", game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/default_data/skyboxes.txt"))
 end
 
-Hint.Text = "Hexagon | Loading..."
+Hint.Text = "Sexagon | Loading..."
 
 -- Viewmodels fix
 for i,v in pairs(game.ReplicatedStorage.Viewmodels:GetChildren()) do
@@ -89,8 +89,8 @@ local Hitboxes = {
 	["Legs"] = {"LeftUpperLeg", "LeftLowerLeg", "LeftFoot", "RightUpperLeg", "RightLowerLeg", "RightFoot"}
 }
 
-local HexagonFolder = Instance.new("Folder", workspace)
-HexagonFolder.Name = "HexagonFolder"
+local SexagonFolder = Instance.new("Folder", workspace)
+SexagonFolder.Name = "SexagonFolder"
 
 local oldOsPlatform = game.Players.LocalPlayer.OsPlatform
 local oldMusicT = game.Players.LocalPlayer.PlayerGui.Music.ValveT:Clone()
@@ -115,8 +115,8 @@ local FOVCircle = Drawing.new("Circle")
 local Cases = {}; for i,v in pairs(game.ReplicatedStorage.Cases:GetChildren()) do table.insert(Cases, v.Name) end
 
 local Configs = {}
-local Inventories = loadstring("return "..readfile("hexagon/inventories.txt"))()
-local Skyboxes = loadstring("return "..readfile("hexagon/skyboxes.txt"))()
+local Inventories = loadstring("return "..readfile("Sexagon/inventories.txt"))()
+local Skyboxes = loadstring("return "..readfile("Sexagon/skyboxes.txt"))()
 
 
 
@@ -267,7 +267,7 @@ local function GetLegitbotTarget()
 	for i,v in pairs(game.Players:GetPlayers()) do
 		if IsAlive(v) and v ~= LocalPlayer and not v.Character:FindFirstChild("ForceField") then
 			if library.pointers.AimbotTabCategoryLegitbotTeamCheck.value == false or GetTeam(v) ~= GetTeam(LocalPlayer) then
-				if library.pointers.AimbotTabCategoryLegitbotVisibilityCheck.value == false or IsVisible(v.Character.Head.Position, {v.Character, LocalPlayer.Character, HexagonFolder, workspace.CurrentCamera}) == true then
+				if library.pointers.AimbotTabCategoryLegitbotVisibilityCheck.value == false or IsVisible(v.Character.Head.Position, {v.Character, LocalPlayer.Character, SexagonFolder, workspace.CurrentCamera}) == true then
 					local Vector, onScreen = workspace.CurrentCamera:WorldToScreenPoint(v.Character.HumanoidRootPart.Position)
 					local FOV = (Vector2.new(Mouse.X, Mouse.Y) - Vector2.new(Vector.X, Vector.Y)).magnitude
 					
@@ -751,13 +751,13 @@ end)
 
 
 VisualsTabCategoryOthers:AddDropdown("Skybox", TableToNames(Skyboxes), "Default", "VisualsTabCategoryOthersSkybox", function(val)
-	if game.Lighting:FindFirstChild("HEXAGON_SKYBOX") then
-		game.Lighting:FindFirstChild("HEXAGON_SKYBOX"):Destroy()
+	if game.Lighting:FindFirstChild("SEXAGON_SKYBOX") then
+		game.Lighting:FindFirstChild("SEXAGON_SKYBOX"):Destroy()
 	end
 	
 	if val ~= "Default" and rawget(Skyboxes, val) then
 		local NewSkybox = Instance.new("Sky", game.Lighting)
-		NewSkybox.Name = "HEXAGON_SKYBOX"
+		NewSkybox.Name = "SEXAGON_SKYBOX"
 		
 		for i,v in pairs(rawget(Skyboxes, val)) do
 			NewSkybox[i] = v
@@ -1148,7 +1148,7 @@ end)
 MiscellaneousTabCategoryMain:AddSlider("Open Case Amount", {1, 100, 1, 1, ""}, "MiscellaneousTabCategoryMainOpenCaseAmount")
 
 local a,b = pcall(function()
-	MiscellaneousTabCategoryMain:AddMultiDropdown("Custom Models", TableToNames(loadstring("return "..readfile("hexagon/custom_models.txt"))(), true), {}, "MiscellaneousTabCategoryMainCustomModels", function(val)
+	MiscellaneousTabCategoryMain:AddMultiDropdown("Custom Models", TableToNames(loadstring("return "..readfile("Sexagon/custom_models.txt"))(), true), {}, "MiscellaneousTabCategoryMainCustomModels", function(val)
 		if not ViewmodelsBackup then
 			ViewmodelsBackup = game.ReplicatedStorage.Viewmodels:Clone()
 		end
@@ -1157,7 +1157,7 @@ local a,b = pcall(function()
 		
 		ViewmodelsBackup:Clone().Parent = game.ReplicatedStorage
 		
-		for i,v in pairs(loadstring("return "..readfile("hexagon/custom_models.txt"))()) do
+		for i,v in pairs(loadstring("return "..readfile("Sexagon/custom_models.txt"))()) do
 			if table.find(val, v.weaponname) then
 				AddCustomModel(v)
 			end
@@ -1167,12 +1167,12 @@ end)
 
 if not a then
 	print(a, b)
-	game.Players.LocalPlayer:Kick("Hexagon | Your custom models file is fucked up lol! "..b)
+	game.Players.LocalPlayer:Kick("Sexagon | Your custom models file is fucked up lol! "..b)
 end
 
 MiscellaneousTabCategoryMain:AddDropdown("Inventory Changer", TableToNames(Inventories), "-", "MiscellaneousTabCategoryMainInventoryChanger", function(val)
 	local InventoryLoadout = LocalPlayer.PlayerGui.GUI["Inventory&Loadout"]
-	local InventoriesData = loadstring("return "..readfile("hexagon/inventories.txt"))()
+	local InventoriesData = loadstring("return "..readfile("Sexagon/inventories.txt"))()
 	
 	if typeof(InventoriesData[val]) == "table" then
 		cbClient.CurrentInventory = InventoriesData[val]
@@ -1220,7 +1220,7 @@ end)
 
 MiscellaneousTabCategoryMain:AddButton("Inject Custom Skins", function()
 	if #nocw_s == 0 then
-		for i,v in pairs(loadstring("return "..readfile("hexagon/custom_skins.txt"))()) do
+		for i,v in pairs(loadstring("return "..readfile("Sexagon/custom_skins.txt"))()) do
 			AddCustomSkin(v)
 			game:GetService("RunService").Stepped:Wait()
 		end
@@ -1515,11 +1515,9 @@ MiscellaneousTabCategoryBunnyHop:AddSlider("Maximum Velocity", {0, 100, 40, 1, "
 
 local MiscellaneousTabCategoryBacktrack = MiscellaneousTab:AddCategory("Backtrack", 2)
 
-local cock = false
 
 MiscellaneousTabCategoryBacktrack:AddToggle("Enabled", false, "MiscellaneousTabCategoryBacktrackEnabled", function(val)
 	if val == true then
-		cock = false
 		if cock == false then
 			Backtracking = RunService.RenderStepped:Connect(function()
 				if IsAlive(LocalPlayer) then
@@ -1533,7 +1531,7 @@ MiscellaneousTabCategoryBacktrack:AddToggle("Enabled", false, "MiscellaneousTabC
 							NewBacktrackPart.Color = library.pointers.MiscellaneousTabCategoryBacktrackColor.value
 							NewBacktrackPart.Size = v.Character.Head.Size
 							NewBacktrackPart.CFrame = v.Character.Head.CFrame
-							NewBacktrackPart.Parent = HexagonFolder
+							NewBacktrackPart.Parent = SexagonFolder
 							
 							local BacktrackTag = Instance.new("ObjectValue")
 							BacktrackTag.Parent = NewBacktrackPart
@@ -1548,44 +1546,6 @@ MiscellaneousTabCategoryBacktrack:AddToggle("Enabled", false, "MiscellaneousTabC
 					end
 				end
 			end)
-		end
-	elseif val == false and Backtracking then
-		Backtracking:Disconnect()
-	end
-end)
-
-MiscellaneousTabCategoryBacktrack:AddToggle("Skeet backtrack", false, "MiscellaneousTabCategoryBacktrackSkeet", function(val)
-	if val == true and library.pointers.MiscellaneousTabCategoryBacktrackEnabled.value == true then
-		cock = true
-		if cock == true then
-			BacktrackingSkeet = RunService.RenderStepped:Connect(function()
-				if IsAlive(LocalPlayer) then
-					for i,v in pairs(game.Players:GetPlayers()) do
-						if IsAlive(v) and GetTeam(v) ~= GetTeam(LocalPlayer) then
-							local NewBacktrackPart = Instance.new("Part")
-							NewBacktrackPart.Name = v.Name
-							NewBacktrackPart.Anchored = true
-							NewBacktrackPart.CanCollide = false
-							NewBacktrackPart.Transparency = library.pointers.MiscellaneousTabCategoryBacktrackTransparency.value
-							NewBacktrackPart.Color = library.pointers.MiscellaneousTabCategoryBacktrackColor.value
-							NewBacktrackPart.Size = v.Character.Head.Size
-							NewBacktrackPart.CFrame = v.Character.Head.CFrame
-							NewBacktrackPart.Parent = HexagonFolder
-							
-							local BacktrackTag = Instance.new("ObjectValue")
-							BacktrackTag.Parent = NewBacktrackPart
-							BacktrackTag.Name = "PlayerName"
-							BacktrackTag.Value = v
-							
-							spawn(function()
-								wait(5000/700)
-								NewBacktrackPart:Destroy()
-							end)
-						end
-					end
-				end
-			end)
-		end
 	elseif val == false and Backtracking then
 		Backtracking:Disconnect()
 	end
@@ -1634,7 +1594,7 @@ MiscellaneousTabCategoryChatSpam:AddToggle("Enabled", false, "MiscellaneousTabCa
 	end
 end)
 
-MiscellaneousTabCategoryChatSpam:AddTextBox("Message", "Hexagon is the best!", "MiscellaneousTabCategoryChatSpamMessage")
+MiscellaneousTabCategoryChatSpam:AddTextBox("Message", "Get good get Sexagon", "MiscellaneousTabCategoryChatSpamMessage")
 
 local MiscellaneousTabCategoryKeybinds = MiscellaneousTab:AddCategory("Keybinds", 2)
 
@@ -1755,16 +1715,16 @@ SettingsTabCategoryConfigs:AddTextBox("Name", "", "SettingsTabCategoryConfigsNam
 SettingsTabCategoryConfigs:AddDropdown("Config", {"-"}, "-", "SettingsTabCategoryConfigsConfig")
 
 SettingsTabCategoryConfigs:AddButton("Create", function()
-    writefile("hexagon/configs/"..library.pointers.SettingsTabCategoryConfigsName.value..".cfg", library:SaveConfiguration())
+    writefile("Sexagon/configs/"..library.pointers.SettingsTabCategoryConfigsName.value..".sex", library:SaveConfiguration())
 end)
 
 SettingsTabCategoryConfigs:AddButton("Save", function()
-    writefile("hexagon/configs/"..library.pointers.SettingsTabCategoryConfigsConfig.value..".cfg", library:SaveConfiguration())
+    writefile("Sexagon/configs/"..library.pointers.SettingsTabCategoryConfigsConfig.value..".sex", library:SaveConfiguration())
 end)
 
 SettingsTabCategoryConfigs:AddButton("Load", function()
 	local a,b = pcall(function()
-		cfg = loadstring("return "..readfile("hexagon/configs/"..library.pointers.SettingsTabCategoryConfigsConfig.value..".cfg"))()
+		cfg = loadstring("return "..readfile("Sexagon/configs/"..library.pointers.SettingsTabCategoryConfigsConfig.value..".sex"))()
 	end)
 	
 	if a == false then
@@ -1777,8 +1737,8 @@ end)
 SettingsTabCategoryConfigs:AddButton("Refresh", function()
 	local cfgs = {}
 
-	for i,v in pairs(listfiles("hexagon/configs")) do
-		if v:sub(-4) == ".cfg" then
+	for i,v in pairs(listfiles("Sexagon/configs")) do
+		if v:sub(-4) == ".sex" then
 			table.insert(cfgs, v:sub(17, -5))
 		end
 	end
@@ -1787,10 +1747,10 @@ SettingsTabCategoryConfigs:AddButton("Refresh", function()
 end)
 
 SettingsTabCategoryConfigs:AddButton("Set as default", function()
-	if isfile("hexagon/configs/"..library.pointers.SettingsTabCategoryConfigsConfig.value..".cfg") then
-		writefile("hexagon/autoload.txt", library.pointers.SettingsTabCategoryConfigsConfig.value..".cfg")
+	if isfile("Sexagon/configs/"..library.pointers.SettingsTabCategoryConfigsConfig.value..".sex") then
+		writefile("Sexagon/autoload.txt", library.pointers.SettingsTabCategoryConfigsConfig.value..".sex")
 	else
-		writefile("hexagon/autoload.txt", "")
+		writefile("Sexagon/autoload.txt", "")
 	end
 end)
 
@@ -2059,12 +2019,30 @@ workspace.Debris.ChildAdded:Connect(function(child)
 			if table.find(library.pointers.VisualsTabCategoryGrenadeESPInfo.value, "Icon") then
 				local ImageLabel = Instance.new("ImageLabel")
 				ImageLabel.Parent = BillboardGui
-				ImageLabel.ZIndex = 1
+				ImageLabel.ZIndex = 2
 				ImageLabel.BackgroundTransparency = 1
 				ImageLabel.Size = UDim2.new(1, 0, 1, 0)
 				ImageLabel.ImageColor3 = library.pointers.VisualsTabCategoryGrenadeESPColor.value
 				ImageLabel.Image = tostring(require(game.ReplicatedStorage.GetIcon).getWeaponOfKiller(gtype))
 				ImageLabel.ScaleType = Enum.ScaleType.Fit
+			end
+
+			if table.find(library.pointers.VisualsTabCategoryGrenadeESPInfo.value, "Icon") then
+				local Frame = Instance.new("ImageLabel")
+				Frame.Parent = BillboardGui
+				Frame.ZIndex = 1
+				Frame.BackgroundTransparency = 0
+				Frame.Size = UDim2.new(1, 0, 1, 0)
+				Frame.ImageColor3 = library.pointers.VisualsTabCategoryGrenadeESPColor.value
+				Frame.TextColor3 = library.pointers.VisualsTabCategoryGrenadeESPColor.value
+				Frame.Image = tostring(require(game.ReplicatedStorage.GetIcon).getWeaponOfKiller(gtype))
+				Frame.ScaleType = Enum.ScaleType.Fit
+			end
+
+			if table.find(library.pointers.VisualsTabCategoryGrenadeESPInfo.value, "Icon") then
+				local Round = Instance.new("UICorner")
+				Round.Parent = Frame
+				Round.CornerRadius = 0, 100
 			end
 			
 			if table.find(library.pointers.VisualsTabCategoryGrenadeESPInfo.value, "Text") then
@@ -2137,7 +2115,7 @@ Mouse.Move:Connect(function()
 	end
 end)
 
-Hint.Text = "Hexagon | Setting up hooks..."
+Hint.Text = "Sexagon | Setting up hooks..."
 
 hookfunc(getrenv().xpcall, function() end)
 
@@ -2221,7 +2199,7 @@ oldNamecall = hookfunc(mt.__namecall, newcclosure(function(self, ...)
 					end)
 				end
 				
-				if args[1].Parent == workspace.HexagonFolder then
+				if args[1].Parent == workspace.SexagonFolder then
 					if args[1].PlayerName.Value.Character and args[1].PlayerName.Value.Character.Head ~= nil then
 						args[1] = args[1].PlayerName.Value.Character.Head
 					end
@@ -2358,9 +2336,9 @@ for i,v in pairs({"CT", "T"}) do
 	end)
 end
 
-if readfile("hexagon/autoload.txt") ~= "" and isfile("hexagon/configs/"..readfile("hexagon/autoload.txt")) then
+if readfile("Sexagon/autoload.txt") ~= "" and isfile("Sexagon/configs/"..readfile("Sexagon/autoload.txt")) then
 	local a,b = pcall(function()
-		cfg = loadstring("return "..readfile("hexagon/configs/"..readfile("hexagon/autoload.txt")))()
+		cfg = loadstring("return "..readfile("Sexagon/configs/"..readfile("Sexagon/autoload.txt")))()
 	end)
 	
 	if a == false then
@@ -2370,9 +2348,9 @@ if readfile("hexagon/autoload.txt") ~= "" and isfile("hexagon/configs/"..readfil
 	end
 end
 
-print("Hexagon finished loading!")
+print("Sexagon finished loading!")
 print("101 120 111 100 117 115") -- :)
 
-Hint.Text = "Hexagon | Loading finished!"
+Hint.Text = "Sexagon | Loading finished!"
 wait(1.5)
 Hint:Destroy()
