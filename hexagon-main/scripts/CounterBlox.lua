@@ -135,7 +135,7 @@ local isBhopping = false
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/ESP.lua"))()
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/UILibrary.lua"))()
 
-local Window = library:CreateWindow(Vector2.new(500, 500), Vector2.new((workspace.CurrentCamera.ViewportSize.X/2)-250, (workspace.CurrentCamera.ViewportSize.Y/2)-250))
+local Window = library:CreateWindow(Vector2.new(500, 600), Vector2.new((workspace.CurrentCamera.ViewportSize.X/2)-250, (workspace.CurrentCamera.ViewportSize.Y/2)-250))
 
 
 
@@ -2216,12 +2216,13 @@ oldNamecall = hookfunc(mt.__namecall, newcclosure(function(self, ...)
 			elseif self.Name == "HitPart" then
 				args[8] = args[8] * library.pointers.MiscellaneousTabCategoryGunModsDamageMultiplier.value
 
+
 				if library.pointers.VisualsTabCategoryOthersBulletTracers.value == true then
 					spawn(function()
 						local BulletTracers = Instance.new("Part")
 						BulletTracers.Anchored = true
 						BulletTracers.CanCollide = false
-						BulletTracers.Material = library.pointers.VisualsTabCategoryOthersBulletTracersMateriald.value
+						BulletTracers.Material = "ForceField"
 						BulletTracers.Color = library.pointers.VisualsTabCategoryOthersBulletTracersColor.value
 						BulletTracers.Size = Vector3.new(0.1, 0.1, (LocalPlayer.Character.Head.CFrame.p - args[2]).magnitude)
 						BulletTracers.CFrame = CFrame.new(LocalPlayer.Character.Head.CFrame.p, args[2]) * CFrame.new(0, 0, -BulletTracers.Size.Z / 2)
