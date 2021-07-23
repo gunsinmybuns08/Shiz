@@ -704,6 +704,7 @@ function library:CreateWindow(csize, cpos)
 				BorderSizePixel = 0,
 				BackgroundTransparency = 0,
 				Parent = LocalTab.main
+				ZIndex = 2
 			})
 			
 			LocalTab.content = library:create("Frame", {
@@ -712,6 +713,7 @@ function library:CreateWindow(csize, cpos)
 				BorderSizePixel = 0,
 				BackgroundTransparency = 0,
 				Parent = LocalTab.main
+				ZIndex = 1
 			})
 			
 			LocalTab.layout = library:create("UIListLayout", {
