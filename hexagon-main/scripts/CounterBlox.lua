@@ -662,46 +662,31 @@ VisualsTabCategoryPlayers:AddColorPicker("Enemy Color", Color3.new(1,0,0), "Visu
 	ESP.EnemyColor = val
 end)
 
-VisualsTabCategoryPlayers:AddToggle("Chams", false, "VisualsTabCategoryPlayersChams", function(val)
-		if val == true then
-			function CreateSG(name,parent,face)
-				local SurfaceGui = Instance.new("SurfaceGui",parent)
-				SurfaceGui.Parent = parent
-				SurfaceGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-				SurfaceGui.Face = Enum.NormalId[face]
-				SurfaceGui.LightInfluence = 0
-				SurfaceGui.ResetOnSpawn = false
-				SurfaceGui.Name = name
-				SurfaceGui.AlwaysOnTop = true
-				local Frame = Instance.new("Frame",SurfaceGui)
-				Frame.BackgroundColor3 = library.pointers.VisualsTabCategoryPlayersChamsColor.value
-				Frame.Size = UDim2.new(1,0, 1,0)
-				Frame.BorderSizePixel = 0
-				Frame.BackgroundTransparency = library.pointers.VisualsTabCategoryPlayersChamsTransparency.value
-				if val == false then
-					SurfaceGui:Destroy()
-				end
-			end
-			while true do
-					wait()
-					for i,v in pairs (game:GetService("Players"):GetPlayers()) do
-						if v ~= game:GetService("Players").LocalPlayer and v.Character ~= nil and v.Character:FindFirstChild("Head") and v.Character.Head:FindFirstChild("cham") == nil and v ~= game.Players.LocalPlayer then
-						for i,v in pairs (v.Character:GetChildren()) do
-							if v:IsA("MeshPart") or v.Name == "Head" then
-							CreateSG("cham",v,"Back")
-							CreateSG("cham",v,"Front")
-							CreateSG("cham",v,"Left")
-							CreateSG("cham",v,"Right")
-							CreateSG("cham",v,"Right")
-							CreateSG("cham",v,"Top")
-							CreateSG("cham",v,"Bottom")
+--[[VisualsTabCategoryPlayers:AddToggle("Chams", false, "VisualsTabCategoryPlayersChams", function(val)
+	local plr = game:GetService("Players").LocalPlayer
+	function update()
+		while true do
+			wait()
+			for _,v in next, game:GetService("Players"):GetPlayers() do
+				if v.Team ~= plr.Team then
+					for _,b in next, v.Character:GetChildren() do
+						if b:IsA("Part") or b:IsA("MeshPart") then
+							if not b:FindFirstChild("BoxHandleAdornment") then
+								b.Transparency = 1
+								local box = Instance.new("BoxHandleAdornment",b)
+								box.AlwaysOnTop = true
+								box.Adornee = b
+								box.Size = b.Size
+								box.ZIndex = 1
+								box.Color3 = Color3.new(1,0,0)
 							end
 						end
 					end
 				end
 			end
 		end
-end)
+	end
+end)]]
 
 VisualsTabCategoryPlayers:AddColorPicker("Chams color", Color3.new(255,255,255), "VisualsTabCategoryPlayersChamsColor")
 
@@ -989,6 +974,10 @@ WorldTabCategoryColor:AddColorPicker("Ambient", Color3.new(1,1,1), "WorldTabCate
 	game.Lighting.ColorCorrection.TintColor = val
 end)
 
+WorldTabCategoryColor:AddColorPicker("Shadow color", Color3.new(1,1,1), "WorldTabCategoryOthersShadowColor", function(val)
+	game.Lighting.Ambient = val
+end)
+
 WorldTabCategoryColor:AddSlider("Saturation", {-1, 2, 0, 0.1, ""}, "WorldTabCategoryOthersSaturation", function(val)
 	game.Lighting.ColorCorrection.Saturation = val
 end)
@@ -1071,9 +1060,14 @@ WorldTabCategoryOtherVisuals:AddSlider("Fog end", {0, 1000, 1, 1, ""}, "WorldTab
 		game.Lighting.FogEnd = 100000
 	end
 end)
---[[WorldTabCategoryOtherVisuals:AddToggle("Better Shadows", false, "WorldTabCategoryOtherBetterShadows", function(ez)
-	sethiddenproperty(game:GetService("Lighting"), "Technology", "Future")
-end)]]
+
+WorldTabCategoryOtherVisuals:AddToggle("Better Shadows", false, "WorldTabCategoryOtherBetterShadows", function(ez)
+	if ez == true then
+		sethiddenproperty(game:GetService("Lighting"), "Technology", "Future")
+	else
+		sethiddenproperty(game:GetService("Lighting"), "Technology", "Compatibility")
+	end
+end)
 
 
 
@@ -1407,7 +1401,7 @@ MiscellaneousTabCategoryMain:AddToggle("Kill All", false, "MiscellaneousTabCateg
 						local Arguments = {
 							[1] = v.Character.Head,
 							[2] = v.Character.Head.Position,
-							[3] = "Glock18",
+							[3] = library.pointers.MiscellaneousTabCategoryMainKillWeapon.value,
 							[4] = 100,
 							[5] = LocalPlayer.Character.Gun,
 							[8] = 100,
@@ -1436,7 +1430,7 @@ MiscellaneousTabCategoryMain:AddToggle("Kill Enemies", false, "MiscellaneousTabC
 						local Arguments = {
 							[1] = v.Character.Head,
 							[2] = v.Character.Head.Position,
-							[3] = "Glock18",
+							[3] = library.pointers.MiscellaneousTabCategoryMainKillWeapon.value,
 							[4] = 100,
 							[5] = LocalPlayer.Character.Gun,
 							[8] = 100,
@@ -1455,6 +1449,9 @@ MiscellaneousTabCategoryMain:AddToggle("Kill Enemies", false, "MiscellaneousTabC
 		KillEnemiesLoop:Disconnect()
 	end
 end)
+
+MiscellaneousTabCategoryMain:AddDropdown("Kill All/Enemies weapon", {"AWP", "AK47", "Glock", "Scout", "USP", "Banna", "HE Grenade", "Incendiary Grenade"}, "Glock", "MiscellaneousTabCategoryMainKillWeapon")
+
 
 MiscellaneousTabCategoryMain:AddTextBox("Hit Sound", "", "MiscellaneousTabCategoryMainHitSound")
 
@@ -1588,6 +1585,7 @@ MiscellaneousTabCategoryBacktrack:AddToggle("Enabled", false, "MiscellaneousTabC
 							NewBacktrackPart.Size = v.Character.Head.CFrame
 							NewBacktrackPart.CFrame = v.Character.Head.CFrame
 							NewBacktrackPart.Parent = SexagonFolder
+							
 							
 							local BacktrackTag = Instance.new("ObjectValue")
 							BacktrackTag.Parent = NewBacktrackPart
@@ -2094,12 +2092,6 @@ workspace.Debris.ChildAdded:Connect(function(child)
 				Frame.TextColor3 = library.pointers.VisualsTabCategoryGrenadeESPColor.value
 				Frame.Image = tostring(require(game.ReplicatedStorage.GetIcon).getWeaponOfKiller(gtype))
 				Frame.ScaleType = Enum.ScaleType.Fit
-			end
-
-			if table.find(library.pointers.VisualsTabCategoryGrenadeESPInfo.value, "Icon") then
-				local Round = Instance.new("UICorner")
-				Round.Parent = Frame
-				Round.CornerRadius = 0, 100
 			end
 			
 			if table.find(library.pointers.VisualsTabCategoryGrenadeESPInfo.value, "Text") then
