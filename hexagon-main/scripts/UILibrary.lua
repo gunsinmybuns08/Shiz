@@ -161,8 +161,8 @@ local library = {
         footer = " Just get sexed its that simple",
         modal = true,
         font = Enum.Font.Code,
-        textsize = 15,
-        textstroke = true
+        textsize = 14,
+        textstroke = false
     },
     theme = {
         buttons = Color3.fromRGB(20, 200, 20), -- toggle, sliders colors
