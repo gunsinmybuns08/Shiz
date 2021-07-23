@@ -161,7 +161,7 @@ local library = {
         footer = " Just get sexed its that simple",
         modal = true,
         font = Enum.Font.Code,
-        textsize = 14,
+        textsize = 15,
         textstroke = false
     },
     theme = {
