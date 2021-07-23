@@ -160,7 +160,7 @@ local library = {
 		logo = "rbxassetid://4350178803", -- "http://www.roblox.com/asset/?id=6597976562",
         footer = " Imagine pressing Copy Discord Invite.",
         modal = true,
-        font = Enum.Font.SourceSans,
+        font = Enum.Font.Code,
         textsize = 16,
         textstroke = true
     },
@@ -986,7 +986,7 @@ function library:CreateWindow(csize, cpos)
 					BackgroundTransparency = 1,
 					Text = ">",
 					TextColor3 = library.theme.textboxtext, -- library.theme.tabbutton,
-					Font = Enum.Font.Arcade,
+					Font = Enum.Font.Code,
 					TextSize = 18,
 					Parent = dropdown.main,
 				})
@@ -1196,7 +1196,7 @@ function library:CreateWindow(csize, cpos)
 					BackgroundTransparency = 1,
 					Text = ">",
 					TextColor3 = library.theme.textboxtext,
-					Font = Enum.Font.Arcade,
+					Font = Enum.Font.Code,
 					TextSize = 18,
 					Parent = dropdown.main,
 				})
