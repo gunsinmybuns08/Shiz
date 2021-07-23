@@ -158,7 +158,7 @@ local library = {
         guiname = "Sexagon",
 		title = "Sexagon",
 		logo = "rbxassetid://4350178803", -- "http://www.roblox.com/asset/?id=6597976562",
-        footer = " Imagine pressing Copy Discord Invite.",
+        footer = " Just get sexed its that simple",
         modal = true,
         font = Enum.Font.Code,
         textsize = 16,
