@@ -704,16 +704,6 @@ function library:CreateWindow(csize, cpos)
 				BorderSizePixel = 0,
 				BackgroundTransparency = 0,
 				Parent = LocalTab.main
-				ZIndex = 2
-			})
-			
-			LocalTab.content = library:create("Frame", {
-				Size = UDim2.new(1.01,0, 1.01,0),
-				BackgroundColor3 = Color3.fromRGB(45, 45, 45),
-				BorderSizePixel = 0,
-				BackgroundTransparency = 0,
-				Parent = LocalTab.main
-				ZIndex = 1
 			})
 			
 			LocalTab.layout = library:create("UIListLayout", {
