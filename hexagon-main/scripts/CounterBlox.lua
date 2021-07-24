@@ -135,7 +135,7 @@ local isBhopping = false
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/ESP.lua"))()
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/gunsinmybuns08/Shiz/main/hexagon-main/scripts/UILibrary.lua"))()
 
-local Window = library:CreateWindow(Vector2.new(500, 600), Vector2.new((workspace.CurrentCamera.ViewportSize.X/2)-250, (workspace.CurrentCamera.ViewportSize.Y/2)-250))
+local Window = library:CreateWindow(Vector2.new(500, 500), Vector2.new((workspace.CurrentCamera.ViewportSize.X/2)-250, (workspace.CurrentCamera.ViewportSize.Y/2)-250))
 
 
 
@@ -507,6 +507,8 @@ AimbotTabCategoryLegitbot:AddSlider("Hitchance", {0, 100, 100, 1, "%"}, "AimbotT
 
 local AimbotTabCategoryAntiAimbot = AimbotTab:AddCategory("Anti Aimbot", 2)
 
+local key = Enum.KeyCode.RightShift
+
 AimbotTabCategoryAntiAimbot:AddToggle("Enabled", false, "AimbotTabCategoryAntiAimbotEnabled", function(val)
 	AntiAimbot = val
 	
@@ -617,6 +619,81 @@ AimbotTabCategoryAntiAimbot:AddKeybind("Manual Jitter", nil, "AimbotTabCategoryA
 	if val == true and UserInputService:GetFocusedTextBox() == nil then library.pointers.AimbotTabCategoryAntiAimbotYaw:Set("Jitter") end
 end)
 
+local AimbotTabCategoryAutoShootFirething = AimbotTab:AddCategory("Auto fire", 2)
+
+
+AimbotTabCategoryAutoShootFirething:AddToggle("AutoShoot", false, "AimbotTabCategoryLBAutoShoot", function(val)
+    local lp = game:GetService("Players").LocalPlayer
+    local client = getsenv(lp.PlayerGui.Client)
+    local hitpart = nil
+    game:GetService('RunService').RenderStepped:Connect(function()
+            if workspace.Status.Preparation.Value == false and lp.Character and lp.Character:FindFirstChild('Humanoid') and lp.Character:FindFirstChild('HumanoidRootPart') and lp.Character.Humanoid.Health > 0 then
+                for _, player in pairs(game:GetService('Players'):GetPlayers()) do
+                    if player.Team ~= lp.Team then
+                        if player.Status.Alive.Value == true and player.Character and not player.Character:FindFirstChild('ForceField') and player.Character:FindFirstChild('Humanoid') and player.Character:FindFirstChild('HeadHB') and player.Character.Humanoid.Health > 0 then
+                            local collision = lp.Character.HumanoidRootPart.CFrame.p + Vector3.new(0, 1.4, 0)
+                            local ignore = {workspace.Ray_Ignore, lp.Character, workspace:WaitForChild('Map').Clips}
+                            local ray = Ray.new(
+                                collision,
+                                (player.Character.Head.Position-collision).unit * math.clamp(client.gun.Range.Value, 1000000, 1000000)
+                                
+                            )
+                            for _, accessory in pairs(player.Character:GetChildren()) do
+                                if accessory:IsA('Accessory') then
+                                    table.insert(ignore, accessory)
+                            end
+                            end
+                            local hit,pos = workspace:FindPartOnRayWithIgnoreList(ray,ignore,false,true)
+                            if hit and hit.Parent == player.Character then
+                                hitpart = player.Character.HeadHB or player.Character.HumanoidRootPart
+                                if not client.DISABLED and library.pointers.AimbotTabCategoryLBAutoShoot.value ~= false then
+                                    client.firebullet().Heartbeat:Wait()
+                                end
+                            else
+                                hitpart = nil
+                            end
+                        end
+                    end
+                end
+            end
+	end)
+	local meta = getrawmetatable(game) 
+local index = meta.__index
+local realnamecall = meta.__namecall
+local newindex = meta.__newindex
+setreadonly(meta, false)
+
+meta.__namecall = newcclosure(function(self,...)
+	local args = {...}
+	local namecall = getnamecallmethod()
+	if namecall == "GetState" then
+		return Enum.HumanoidStateType.Physics
+	end
+	--[[if namecall == "InvokeServer" and self.Name == "Hugh" then
+		return
+	end
+    if namecall == 'FireServer' and self.Name == 'ControlTurn' then
+    	args[1] = -1
+	end]]
+	if namecall == "FindPartOnRayWithIgnoreList" then
+
+		if hitpart and lp.Character then
+			local _ = lp.Character.HumanoidRootPart.CFrame.p + Vector3.new(0, 1.4, 0)
+			args[1] = Ray.new(_, CFrame.new(_, hitpart.CFrame.p).lookVector.unit * 999)
+		end	  
+	end
+	return realnamecall(self, unpack(args))
+end)
+meta.__index =
+    newcclosure(function(self, G)
+		if not checkcaller() and self == lp and G == "CameraMode" and lp.Character then
+			lp.CameraMode = 'Classic'
+            return 20
+        end
+        return index(self, G)
+    end
+)
+end)
 
 
 local VisualsTab = Window:CreateTab("Visuals") 
@@ -663,34 +740,18 @@ VisualsTabCategoryPlayers:AddColorPicker("Enemy Color", Color3.new(1,0,0), "Visu
 end)
 
 --[[VisualsTabCategoryPlayers:AddToggle("Chams", false, "VisualsTabCategoryPlayersChams", function(val)
-	local plr = game:GetService("Players").LocalPlayer
-	function update()
-		while true do
-			wait()
-			for _,v in next, game:GetService("Players"):GetPlayers() do
-				if v.Team ~= plr.Team then
-					for _,b in next, v.Character:GetChildren() do
-						if b:IsA("Part") or b:IsA("MeshPart") then
-							if not b:FindFirstChild("BoxHandleAdornment") then
-								b.Transparency = 1
-								local box = Instance.new("BoxHandleAdornment",b)
-								box.AlwaysOnTop = true
-								box.Adornee = b
-								box.Size = b.Size
-								box.ZIndex = 1
-								box.Color3 = Color3.new(1,0,0)
-							end
-						end
-					end
-				end
+	for i,v in pairs(game.Players:GetPlayers()) do
+		if v ~= game.Players.LocalPlayer.Character and game.Players.LocalPlayer and v.Character ~= nil then
+			for i,v in pairs(v) do
+
 			end
 		end
 	end
-end)]]
+end)
 
 VisualsTabCategoryPlayers:AddColorPicker("Chams color", Color3.new(255,255,255), "VisualsTabCategoryPlayersChamsColor")
 
-VisualsTabCategoryPlayers:AddSlider("Chams transparency", {0, 1, 0, 0.01, ""}, "VisualsTabCategoryPlayersChamsTransparency")
+VisualsTabCategoryPlayers:AddSlider("Chams transparency", {0, 1, 0, 0.01, ""}, "VisualsTabCategoryPlayersChamsTransparency")]]
 
 local VisualsTabCategoryDroppedESP = VisualsTab:AddCategory("Dropped ESP", 1)
 
@@ -1411,6 +1472,19 @@ MiscellaneousTabCategoryMain:AddToggle("Kill All", false, "MiscellaneousTabCateg
 							[12] = 100,
 							[13] = Vector3.new()
 						}
+						--[[local Arguments = {
+							[1] = player.Character.Head,
+							[2] = player.Character.Head.Position,
+							[3] = player.Parent.LocalPlayer.Character.EquippedTool.Value,
+							[4] = 16000,
+							[5] = player.Parent.LocalPlayer.Character.Gun,
+							[8] = 2,
+							[9] = false,
+							[10] = true,
+							[11] = Vector3.new(),
+							[12] = 16000,
+							[13] = Vector3.new()
+						}]]
 						game.ReplicatedStorage.Events.HitPart:FireServer(unpack(Arguments))
 					end
 				end
@@ -1567,39 +1641,38 @@ MiscellaneousTabCategoryBunnyHop:AddSlider("Minimum Velocity", {0, 100, 16, 1, "
 
 MiscellaneousTabCategoryBunnyHop:AddSlider("Maximum Velocity", {0, 100, 40, 1, ""}, "MiscellaneousTabCategoryBunnyHopMaxVelocity")
 
-local MiscellaneousTabCategoryBacktrack = MiscellaneousTab:AddCategory("Backtrack", 2)
+--[[local MiscellaneousTabCategoryBacktrack = MiscellaneousTab:AddCategory("Backtrack", 2)
 
 
 MiscellaneousTabCategoryBacktrack:AddToggle("Enabled", false, "MiscellaneousTabCategoryBacktrackEnabled", function(val)
 	if val == true then
-			Backtracking = RunService.RenderStepped:Connect(function()
-				if IsAlive(LocalPlayer) then
-					for i,v in pairs(game.Players:GetPlayers()) do
-						if IsAlive(v) and GetTeam(v) ~= GetTeam(LocalPlayer) then
-							local NewBacktrackPart = Instance.new("Part")
-							NewBacktrackPart.Name = v.Name
-							NewBacktrackPart.Anchored = true
-							NewBacktrackPart.CanCollide = false
-							NewBacktrackPart.Transparency = library.pointers.MiscellaneousTabCategoryBacktrackTransparency.value
-							NewBacktrackPart.Color = library.pointers.MiscellaneousTabCategoryBacktrackColor.value
-							NewBacktrackPart.Size = v.Character.Head.CFrame
-							NewBacktrackPart.CFrame = v.Character.Head.CFrame
-							NewBacktrackPart.Parent = SexagonFolder
-							
-							
-							local BacktrackTag = Instance.new("ObjectValue")
-							BacktrackTag.Parent = NewBacktrackPart
-							BacktrackTag.Name = "PlayerName"
-							BacktrackTag.Value = v
-							
-							spawn(function()
-								wait(library.pointers.MiscellaneousTabCategoryBacktrackTime.value/1000)
-								NewBacktrackPart:Destroy()
-							end)
-						end
+		Backtracking = RunService.RenderStepped:Connect(function()
+			if IsAlive(LocalPlayer) then
+				for i,v in pairs(game.Players:GetPlayers()) do
+					if IsAlive(v) and GetTeam(v) ~= GetTeam(LocalPlayer) then
+						local NewBacktrackPart = Instance.new("Part")
+						NewBacktrackPart.Name = v.Name
+						NewBacktrackPart.Anchored = true
+						NewBacktrackPart.CanCollide = false
+						NewBacktrackPart.Transparency = library.pointers.MiscellaneousTabCategoryBacktrackTransparency.value
+						NewBacktrackPart.Color = library.pointers.MiscellaneousTabCategoryBacktrackColor.value
+						NewBacktrackPart.Size = v.Character.Head.Size
+						NewBacktrackPart.CFrame = v.Character.Head.CFrame
+						NewBacktrackPart.Parent = HexagonFolder
+						
+						local BacktrackTag = Instance.new("ObjectValue")
+						BacktrackTag.Parent = NewBacktrackPart
+						BacktrackTag.Name = "PlayerName"
+						BacktrackTag.Value = v
+						
+						spawn(function()
+							wait(library.pointers.MiscellaneousTabCategoryBacktrackTime.value/1000)
+							NewBacktrackPart:Destroy()
+						end)
 					end
 				end
-			end)
+			end
+		end)
 	elseif val == false and Backtracking then
 		Backtracking:Disconnect()
 	end
@@ -1609,7 +1682,7 @@ MiscellaneousTabCategoryBacktrack:AddSlider("Time", {0, 1000, 200, 1, "ms"}, "Mi
 
 MiscellaneousTabCategoryBacktrack:AddSlider("Transparency", {0, 1, 0, 0.01, ""}, "MiscellaneousTabCategoryBacktrackTransparency")
 
-MiscellaneousTabCategoryBacktrack:AddColorPicker("Color", Color3.new(1,1,1), "MiscellaneousTabCategoryBacktrackColor")
+MiscellaneousTabCategoryBacktrack:AddColorPicker("Color", Color3.new(1,1,1), "MiscellaneousTabCategoryBacktrackColor")]]
 
 local MiscellaneousTabCategoryGrenade = MiscellaneousTab:AddCategory("Grenade", 2)
 
@@ -2216,7 +2289,6 @@ oldNamecall = hookfunc(mt.__namecall, newcclosure(function(self, ...)
 			elseif self.Name == "HitPart" then
 				args[8] = args[8] * library.pointers.MiscellaneousTabCategoryGunModsDamageMultiplier.value
 
-
 				if library.pointers.VisualsTabCategoryOthersBulletTracers.value == true then
 					spawn(function()
 						local BulletTracers = Instance.new("Part")
@@ -2404,3 +2476,40 @@ print("101 120 111 100 117 115") -- :)
 Hint.Text = "Sexagon | Loading finished!"
 wait(1.5)
 Hint:Destroy()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
