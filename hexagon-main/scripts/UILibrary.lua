@@ -155,17 +155,17 @@ local library = {
 	windows = {},
     pointers = {},
     settings = {
-        guiname = "Sexagon",
-		title = "Sexagon",
+        guiname = "OwOTap",
+		title = "OwOTap",
 		logo = "rbxassetid://4350178803", -- "http://www.roblox.com/asset/?id=6597976562",
-        footer = " Just get sexed its that simple",
+        footer = "Have fun UwU",
         modal = true,
         font = Enum.Font.Code,
-        textsize = 15,
-        textstroke = false
+        textsize = 14,
+        textstroke = true
     },
     theme = {
-        buttons = Color3.fromRGB(20, 200, 20), -- toggle, sliders colors
+        buttons = Color3.fromRGB(198, 49, 62), -- toggle, sliders colors
         text = Color3.fromRGB(235, 235, 235),
         textboxtext = Color3.fromRGB(145, 145, 145),
         main = Color3.fromRGB(30, 30, 30),
