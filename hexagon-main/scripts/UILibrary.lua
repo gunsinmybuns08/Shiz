@@ -157,17 +157,16 @@ local library = {
     settings = {
         guiname = "OwOTap",
 		title = "OwOTap",
-        footer = "Have fun UwU",
         modal = true,
         font = Enum.Font.Code,
-        textsize = 14,
+        textsize = 15,
         textstroke = false
     },
     theme = {
         buttons = Color3.fromRGB(198, 49, 62), -- toggle, sliders colors
         text = Color3.fromRGB(235, 235, 235),
         textboxtext = Color3.fromRGB(145, 145, 145),
-        main = Color3.fromRGB(28, 28, 35),
+        main = Color3.fromRGB(30, 30, 30),
         outline = Color3.fromRGB(60, 60, 60),
         tabholder = Color3.fromRGB(35, 35, 35),
         tabbutton = Color3.fromRGB(30, 30, 30),
@@ -423,7 +422,7 @@ function library:CreateWindow(csize, cpos)
 
 	window.title = self:create("TextLabel", {
 		Size = UDim2.new(1,0,0,18),
-		Position = UDim2.new(0,30,0,2),
+		Position = UDim2.new(0,10,0,2),
 		BackgroundTransparency = 1,
 		Name = "TitleLabel",
 		Text = ctitle, -- tostring(" "..ctitle) or tostring(" "..self.settings.title),
@@ -567,21 +566,6 @@ function library:CreateWindow(csize, cpos)
 			BackgroundColor3 = library.theme.tabholder,
 			BorderColor3 = library.theme.outline,
 			Name = "PagesFrame",
-			Parent = self.main
-		})
-		
-		self.footer = self.footer or library:create("TextLabel", {
-			Position = UDim2.new(0,0,1,0),
-			Size = UDim2.new(1,0,0,-18),
-			BackgroundColor3 = library.theme.tabbutton,
-			BorderColor3 = library.theme.outline,
-			Name = "FooterLabel",
-			Text = " "..library.settings.footer,
-			TextColor3 = library.theme.text,
-			TextStrokeTransparency = library.settings.textstroke and 0 or 1,
-			Font = library.settings.font,
-			TextSize = library.settings.textsize,
-			TextXAlignment = Enum.TextXAlignment.Left,
 			Parent = self.main
 		})
 	
