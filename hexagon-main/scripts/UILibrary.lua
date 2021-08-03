@@ -157,7 +157,6 @@ local library = {
     settings = {
         guiname = "OwOTap",
 		title = "OwOTap",
-        footer = "Have fun UwU",
         modal = true,
         font = Enum.Font.Code,
         textsize = 14,
@@ -567,21 +566,6 @@ function library:CreateWindow(csize, cpos)
 			BackgroundColor3 = library.theme.tabholder,
 			BorderColor3 = library.theme.outline,
 			Name = "PagesFrame",
-			Parent = self.main
-		})
-		
-		self.footer = self.footer or library:create("TextLabel", {
-			Position = UDim2.new(0,0,1,0),
-			Size = UDim2.new(1,0,0,-18),
-			BackgroundColor3 = library.theme.tabbutton,
-			BorderColor3 = library.theme.outline,
-			Name = "FooterLabel",
-			Text = " "..library.settings.footer,
-			TextColor3 = library.theme.text,
-			TextStrokeTransparency = library.settings.textstroke and 0 or 1,
-			Font = library.settings.font,
-			TextSize = library.settings.textsize,
-			TextXAlignment = Enum.TextXAlignment.Left,
 			Parent = self.main
 		})
 	
