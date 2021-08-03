@@ -157,12 +157,11 @@ local library = {
     settings = {
         guiname = "OwOTap",
 		title = "OwOTap",
-		logo = "rbxassetid://4350178803", -- "http://www.roblox.com/asset/?id=6597976562",
         footer = "Have fun UwU",
         modal = true,
         font = Enum.Font.Code,
         textsize = 14,
-        textstroke = true
+        textstroke = false
     },
     theme = {
         buttons = Color3.fromRGB(198, 49, 62), -- toggle, sliders colors
@@ -420,19 +419,11 @@ function library:CreateWindow(csize, cpos)
 		ImageTransparency = 0.2,
 		Parent = window.main
 	})
-	
-	window.logo = self:create("ImageLabel", {
-		Size = UDim2.new(0,18,0,18),
-		Position = UDim2.new(0,8,0,2),
-		BackgroundTransparency = 1,
-		Name = "Logo",
-		Image = library.settings.logo,
-		Parent = window.main
-	})
+
 
 	window.title = self:create("TextLabel", {
 		Size = UDim2.new(1,0,0,18),
-		Position = UDim2.new(0,32,0,2),
+		Position = UDim2.new(0,30,0,2),
 		BackgroundTransparency = 1,
 		Name = "TitleLabel",
 		Text = ctitle, -- tostring(" "..ctitle) or tostring(" "..self.settings.title),
