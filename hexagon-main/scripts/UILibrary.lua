@@ -168,9 +168,9 @@ local library = {
         textboxtext = Color3.fromRGB(1, 4, 23),
         main = Color3.fromRGB(7, 6, 20),
         outline = Color3.fromRGB(60, 60, 60),
-        tabholder = Color3.fromRGB(8, 35, 65),
+        tabholder = Color3.fromRGB(5, 2, 23),
         tabbutton = Color3.fromRGB(30, 30, 30),
-        tabselected = Color3.fromRGB(1, 70, 103)
+        tabselected = Color3.fromRGB(0, 15, 30)
     }
 }
 
