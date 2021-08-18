@@ -155,22 +155,22 @@ local library = {
 	windows = {},
     pointers = {},
     settings = {
-        guiname = "OwOTap",
-		title = "OwOTap",
+        guiname = "ImperiousGUI",
+		title = "Imperious",
         modal = true,
-        font = Enum.Font.Code,
+        font = Enum.Font.SourceSans,
         textsize = 15,
         textstroke = false
     },
     theme = {
-        buttons = Color3.fromRGB(198, 49, 62), -- toggle, sliders colors
-        text = Color3.fromRGB(235, 235, 235),
-        textboxtext = Color3.fromRGB(145, 145, 145),
-        main = Color3.fromRGB(30, 30, 30),
+        buttons = Color3.fromRGB(0, 31, 75), -- toggle, sliders colors
+        text = Color3.fromRGB(247, 255, 255),
+        textboxtext = Color3.fromRGB(1, 4, 23),
+        main = Color3.fromRGB(7, 6, 20),
         outline = Color3.fromRGB(60, 60, 60),
-        tabholder = Color3.fromRGB(35, 35, 35),
+        tabholder = Color3.fromRGB(8, 35, 65),
         tabbutton = Color3.fromRGB(30, 30, 30),
-        tabselected = Color3.fromRGB(50, 50, 50)
+        tabselected = Color3.fromRGB(1, 70, 103)
     }
 }
 
@@ -1949,3 +1949,4 @@ local function GetConfigs()
 end
 
 return library
+
